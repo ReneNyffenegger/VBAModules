@@ -2,7 +2,8 @@
 '
 '   1   Create a module, copy paste content of this file into new module
 '
-'   2   In «Immediate Window» (german: «Direktfenster» (Menü Ansicht, Ctrl-G) , first do
+'   2   In «Immediate Window» (german: «Direktfenster») to be found under Menu «View» (german: «Ansicht»)
+'       or using Ctrl-G) , first do
 '          call Application.VBE.activevbProject.References.AddFromGuid ("{0002E157-0000-0000-C000-000000000046}", 5, 3)
 '
 '   3   Then load the modules by calling
