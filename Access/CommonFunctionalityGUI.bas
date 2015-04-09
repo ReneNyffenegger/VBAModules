@@ -92,6 +92,16 @@ sub makeContinuous(frm as form) ' {
     frm.defaultView = 1
 end sub ' }
 
+sub toggleHeaderAndFooter  ' {
+'
+'   It seems that this works on the currently opened form
+'   and then only if is opened normally (acNormal), nit
+'   if it is opened with acHidden
+'
+    doCmd.runCommand(acCmdFormHdrFtr)
+
+end sub ' }
+
  ' createLabel {
 function createLabel (              _                 
             formName as string    , _
