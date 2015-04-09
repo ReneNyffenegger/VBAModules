@@ -4,7 +4,11 @@
 '
 '   2   In «Immediate Window» (german: «Direktfenster») to be found under Menu «View» (german: «Ansicht»)
 '       or using Ctrl-G) , first do
-'          call Application.VBE.activevbProject.References.AddFromGuid ("{0002E157-0000-0000-C000-000000000046}", 5, 3)
+'          call application.VBE.activevbProject.references.addFromGuid ("{0002E157-0000-0000-C000-000000000046}", 5, 3)
+
+'   2a  Optionally, you might want to rename the newly inserted module
+'      (Still in the «immediate window»:
+'          vbe.Activevbproject.VBComponents(1).Name = "00_ModuleLoader"
 '
 '   3   Then load the modules by calling
 '          call loadOrReplaceModuleWithFile("fooModule", "c:\path\to\modFoo.bas")
@@ -27,7 +31,7 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string) ' {
     for i = 1 to vbc.count
         if  vbc(i).name = moduleName then
             found = true
-            exit function
+            exit for
         end if
     next i
 
@@ -45,6 +49,17 @@ sub loadMOduleFromFile(moduleName as string, pathToFile as string) ' {
     set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
 
     vbComp.name  = moduleName
-'   vbComp.saved = true  ' Doesn't work, unfortunately
+
+'   Doesn't work, unfortunately
+'   vbComp.saved = true 
+
+'   Neither does this
+'      (Run-time error 29068: Microsoft Access cannot complete this operation
+'       You must stop the code and try again)
+'   doCmd.save acModule, moduleName
+
+'   This does not generate a runtime error, but
+'   does not seem to save the module, either:
+    doCmd.close acModule, moduleName, acSaveYes
 
 end sub ' }

@@ -6,7 +6,7 @@
 
 option explicit
 
-sub emptyModuleCodeForForm(frm as form)'  {
+sub emptyModuleCodeForForm(frm as form) ' {
     dim mdl as module
     set mdl = frm.module
 
@@ -17,9 +17,9 @@ sub emptyModuleCodeForForm(frm as form)'  {
     nofLines = vbModule.codeModule.countOfLines
 
     call vbModule.codeModule.deleteLines(3, nofLines-2)
-end sub'  }
+end sub ' }
 
-sub dynamicEventHandler(frm as form, ctrl as control, codeLine as string, eventName as string)'  {
+sub dynamicEventHandler(frm as form, ctrl as control, codeLine as string, eventName as string) ' {
 
     dim mdl as module
     set mdl = frm.module
@@ -32,15 +32,15 @@ sub dynamicEventHandler(frm as form, ctrl as control, codeLine as string, eventN
     call mdl.insertLines(pos+3, codeLine)
     call mdl.insertLines(pos+4, "end sub")    
 
-end sub'  }
+end sub ' }
 
-sub dynamicOnClick(frm as form, ctrl as control, codeLine as string)'  {
+sub dynamicOnClick(frm as form, ctrl as control, codeLine as string) ' {
 
-    call dynamicEventHandler(frm, ctrl, codeLine, "click")
+    call dynamicEventHandler(frm, ctrl, codeLine, "Click")
 
-end sub'  }
+end sub ' }
 
-sub replaceModuleWithFile(moduleName as string, pathToFile as string)'  {
+sub replaceModuleWithFile(moduleName as string, pathToFile as string) ' {
 
     dim mdl as module
     set mdl = VBE.activeVBProject.vbComponents(moduleName)
@@ -51,13 +51,13 @@ sub replaceModuleWithFile(moduleName as string, pathToFile as string)'  {
 
     call loadMOduleFromFile(moduleName, pathToFile)
 
-end sub'  }
+end sub ' }
 
-sub loadMOduleFromFile(moduleName as string, pathToFile as string)'  {
+sub loadMOduleFromFile(moduleName as string, pathToFile as string) ' {
 
     dim vbComp as vbComponent
     set vbComp = VBE.activeVBProject.vbComponents.import(pathToFile)
 
     vbComp.name = moduleName
 
-end sub'  }
+end sub ' }

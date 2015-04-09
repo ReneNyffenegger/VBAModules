@@ -88,6 +88,10 @@ sub closeForm(name as string) ' {
 
 end sub ' }
 
+sub makeContinuous(frm as form) ' {
+    frm.defaultView = 1
+end sub ' }
+
  ' createLabel {
 function createLabel (              _                 
             formName as string    , _
@@ -100,7 +104,7 @@ function createLabel (              _
 
  
 
-    set createLabel=createControl(formName, acLabel, section, , , x, y, w, h)
+    set createLabel = createControl(formName, acLabel, section, , , x, y, w, h)
     createLabel.caption = caption
 
 end function ' } ' }
