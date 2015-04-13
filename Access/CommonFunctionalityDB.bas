@@ -26,6 +26,15 @@ sub createQuery(name as string, stmt as string) ' {
 
     dim qry as queryDef
 
+'   if doesCollectionContain(currentDB().queryDefs, "name") then
+'      currentDB().remove(name)
+'   end if
+    
+    set qry = currentDB().queryDefs(name)
+    if not qry is nothing then
+       currentDB().queryDefs.delete(name)
+    end if
+
     set qry = currentDB().createQueryDef(name, stmt)
 
 end sub ' }
