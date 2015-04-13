@@ -5,19 +5,27 @@
 option compare database
 option explicit
 
-function getRS(stmt as string) as dao.recordSet
+function getRS(stmt as string) as dao.recordSet ' {
     set getRS = dbEngine.workspaces(0).databases(0).openRecordset(stmt)
-end function
+end function ' }
 
-sub executeSQL(stmt as string)
+sub executeSQL(stmt as string) ' {
     call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
-end sub
+end sub ' }
 
-sub deleteTable(tableName as string)
+sub deleteTable(tableName as string) ' {
     call executeSQL("delete from " & tableName)
-end sub
+end sub ' }
 
-sub dropTableIfExists(tablename as string)
+sub dropTableIfExists(tablename as string) ' {
     on error resume next
     executeSQL("drop table " & tablename)
-end sub
+end sub ' }
+
+sub createQuery(name as string, stmt as string) ' {
+
+    dim qry as queryDef
+
+    set qry = currentDB().createQueryDef(name, stmt)
+
+end sub ' }
