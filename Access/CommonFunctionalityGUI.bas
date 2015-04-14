@@ -103,44 +103,44 @@ sub toggleHeaderAndFooter  ' {
 end sub ' }
 
  ' createLabel {
-function createLabel (              _                 
-            formName as string    , _
-            section  as acSection , _
-            x        as long      , _
-            y        as long      , _
-            w        as long      , _
-            h        as long      , _
-            caption  as string    ) as access.label
+function createLabel (                    _                 
+            byVal formName as string    , _
+            byVal section  as acSection , _
+            byVal x        as long      , _
+            byVal y        as long      , _
+            byVal w        as long      , _
+            byVal h        as long      , _
+            byVal caption  as string    ) as access.label
 
  
 
     set createLabel = createControl(formName, acLabel, section, , , x, y, w, h)
     createLabel.caption = caption
 
-end function ' } ' }
+end function ' }
 
  ' createTextBox {
-function createTextBox (              _ 
-             formName   as string   , _
-             x          as long     , _
-             y          as long     , _
-             w          as long     , _
-             h          as long     , _
-             controlSrc as string ) as access.textBox
+function createTextBox (                     _ 
+             byVal formName   as string    , _
+             byVal section    as acSection , _
+             byVal x_cm       as double    , _
+             byVal y_cm       as double    , _
+             byVal w_cm       as double    , _
+             byVal h_cm       as double    , _
+             byVal controlSrc as string )  as access.textBox
 
-    set createTextBox = createControl(formName, acTextbox, acDetail, , , x, y, w, h)
+    set createTextBox = createControl(formName, acTextbox, section, , , cm2pt(x_cm), cm2pt(y_cm), cm2pt(w_cm), cm2pt(h_cm))
     createTextBox.controlSource = controlSrc
-
 
 end function ' }
 
  ' createNavigationControl {
 function createNavigationControl (    _
              formName   as string   , _
-             x          as long     , _
-             y          as long     , _
-             w          as long     , _
-             h          as long       _
+             x          as double   , _
+             y          as double   , _
+             w          as double   , _
+             h          as double     _
             ) as access.navigationControl
 
     set createNavigationControl = createControl(formName, acNavigationControl, acDetail, , , x, y, w, h)
@@ -197,9 +197,9 @@ sub removeAllControlsOnForm(f as form) ' {
 
 end sub ' }
 
-function cm2pt(cm as double) as long ' {
+function cm2pt(byVal cm as double) as long ' {
 
-    cm2pt = cm * 567
+    cm2pt = cm * 567.0
 
 end function ' }
 
