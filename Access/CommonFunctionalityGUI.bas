@@ -11,6 +11,10 @@ sub openFormDesignHidden(formName as string) ' {
     doCmd.openForm formName, acDesign, , , , acHidden
 end sub ' }
 
+sub openFormDesignNormal(formName as string) ' {
+    doCmd.openForm formName, acDesign, , , , acNormal
+end sub ' }
+
 function doesFormExist(name as string) as boolean ' {
 
     dim i as long
@@ -63,9 +67,9 @@ sub createForm_(name as string) ' {
 end sub ' }
 
 ' sub renameForm(frm as form, newName as string) ' {
-'     
+'
 '     doCmd.rename newName, acForm, frm.name
-' 
+'
 ' end sub ' }
 
 sub deleteForm(name as string) ' {
@@ -92,10 +96,23 @@ sub makeContinuous(frm as form) ' {
     frm.defaultView = 1
 end sub ' }
 
+public function hasHeader(frm as form) as boolean ' {
+  dim dummy as boolean
+
+  on error goto hasheader_error
+  dummy = frm.Section(acHeader).Visible
+  hasHeader = True
+
+  exit function
+
+  hasheader_error:
+  HasHeader = false ' error 2462
+end function ' }
+
 sub toggleHeaderAndFooter  ' {
 '
 '   It seems that this works on the currently opened form
-'   and then only if is opened normally (acNormal), nit
+'   and then only if is opened normally (acNormal), not
 '   if it is opened with acHidden
 '
     doCmd.runCommand(acCmdFormHdrFtr)
@@ -103,24 +120,22 @@ sub toggleHeaderAndFooter  ' {
 end sub ' }
 
  ' createLabel {
-function createLabel (                    _                 
+function createLabel (                    _
             byVal formName as string    , _
             byVal section  as acSection , _
-            byVal x        as long      , _
-            byVal y        as long      , _
-            byVal w        as long      , _
-            byVal h        as long      , _
+            byVal x_cm     as double    , _
+            byVal y_cm     as double    , _
+            byVal w_cm     as double    , _
+            byVal h_cm     as double    , _
             byVal caption  as string    ) as access.label
 
- 
-
-    set createLabel = createControl(formName, acLabel, section, , , x, y, w, h)
+    set createLabel = createControl(formName, acLabel, section, , , cm2pt(x_cm), cm2pt(y_cm), cm2pt(w_cm), cm2pt(h_cm))
     createLabel.caption = caption
 
 end function ' }
 
  ' createTextBox {
-function createTextBox (                     _ 
+function createTextBox (                     _
              byVal formName   as string    , _
              byVal section    as acSection , _
              byVal x_cm       as double    , _
