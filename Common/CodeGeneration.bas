@@ -19,25 +19,34 @@ sub emptyModuleCodeForForm(frm as form) ' {
     call vbModule.codeModule.deleteLines(3, nofLines-2)
 end sub ' }
 
-sub dynamicEventHandler(frm as form, ctrl as control, codeLine as string, eventName as string) ' {
+sub dynamicEventHandler(frm as Form, subSignatur as string, codeLine as string) ' {
+  dim mdl as module
+  set mdl = frm.module
 
-    dim mdl as module
-    set mdl = frm.module
+  dim pos as long
+  pos = mdl.countOfLines
 
-    dim pos as long
-    pos = mdl.countOfLines
+  call mdl.insertLines(pos+1, "")
+' call mdl.insertLines(pos+2, "sub " & subName)
+  call mdl.insertLines(pos+2,  subSignatur)      ' for example: sub Foo_Click / sub Form_Open(cancel as integer) / etc
+  call mdl.insertLines(pos+3, codeLine)
+  call mdl.insertLines(pos+4, "end sub")    
+end sub ' }
 
-    call mdl.insertLines(pos+1, "")
-    call mdl.insertLines(pos+2, "sub " & ctrl.name & "_" & eventName)
-    call mdl.insertLines(pos+3, codeLine)
-    call mdl.insertLines(pos+4, "end sub")    
+' sub dynamicEventHandlerForm(frm as form, codeLine as string, eventName as string) ' {
+'   call dynamicEventHandler(frm, "Form_" & eventName, codeLine)
+' end sub ' }
 
+sub dynamicEventHandlerControl(frm as form, ctrl as control, codeLine as string, eventName as string) ' {
+    call dynamicEventHandler(frm, "sub " & ctrl.name & "_" & eventName, codeLine)
 end sub ' }
 
 sub dynamicOnClick(frm as form, ctrl as control, codeLine as string) ' {
+    call dynamicEventHandlerControl(frm, ctrl, codeLine, "Click")
+end sub ' }
 
-    call dynamicEventHandler(frm, ctrl, codeLine, "Click")
-
+sub dynamicOnOpen(frm as form, codeLine as string) ' {
+    call dynamicEventHandler(frm, "sub " & "form_open(cancel as integer)", codeLine)
 end sub ' }
 
 sub replaceModuleWithFile(moduleName as string, pathToFile as string) ' {
