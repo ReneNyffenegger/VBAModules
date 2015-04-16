@@ -196,6 +196,13 @@ sub conditionalFormattingEQStr(tb as textbox, str as string, bgColor as long, fg
 
 end sub ' }
 
+sub conditionalFormattingExpr(tb as textBox, expr as string, bgColor as long, fgColor as long) ' {
+    dim fc as formatCondition
+    set fc = tb.formatConditions.add(acExpression, acEqual, expr)
+    fc.backColor = bgColor
+    fc.foreColor = fgColor
+end sub ' }
+
 sub removeAllControlsOnForm(f as form) ' {
 
     dim cnt as long
