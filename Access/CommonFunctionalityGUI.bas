@@ -66,6 +66,16 @@ sub createForm_(name as string) ' {
 
 end sub ' }
 
+function createFormAndOpenNormal(name as string) as form ' {
+
+  call deleteForm          (name)
+  call createForm_         (name)
+  call openFormDesignNormal(name)
+
+  set createFormAndOpenNormal = forms(name)
+
+end function ' }
+
 ' sub renameForm(frm as form, newName as string) ' {
 '
 '     doCmd.rename newName, acForm, frm.name
