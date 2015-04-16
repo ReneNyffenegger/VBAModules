@@ -43,6 +43,7 @@ sub runSQLScript(pathToScript as string)
       end if
 
    loop
-  
+
+   close #intF
 
 end sub
