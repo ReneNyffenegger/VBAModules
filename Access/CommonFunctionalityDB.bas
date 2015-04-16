@@ -6,11 +6,13 @@ option compare database
 option explicit
 
 function getRS(stmt as string) as dao.recordSet ' {
-    set getRS = dbEngine.workspaces(0).databases(0).openRecordset(stmt)
+  ' set getRS = dbEngine.workspaces(0).databases(0).openRecordset(stmt)
+    set getRS = currentDB().openRecordset(stmt)
 end function ' }
 
 sub executeSQL(stmt as string) ' {
-    call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
+'   call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
+    call currentDB().execute(stmt, dbFailOnError)
 end sub ' }
 
 sub deleteTable(tableName as string) ' {
@@ -36,3 +38,15 @@ sub createQuery(name as string, stmt as string) ' {
   set qry = currentDB().createQueryDef(name, stmt)
 
 end sub ' }
+
+function singleSelectValue(stmt as string) as variant ' {
+
+' Return the one row, one column value of
+' a select statement, such as in «select count(*) from x»
+
+  dim rs as dao.recordSet
+  set rs = getRS(stmt)
+  singleSelectValue = rs(0)
+  set rs = nothing
+
+end function ' }
