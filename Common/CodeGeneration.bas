@@ -19,6 +19,8 @@ sub emptyModuleCodeForForm(frm as form) ' {
     call vbModule.codeModule.deleteLines(3, nofLines-2)
 end sub ' }
 
+' { Functionalities for event handlers
+
 sub dynamicEventHandler(frm as Form, subSignatur as string, codeLine as string) ' {
   dim mdl as module
   set mdl = frm.module
@@ -47,6 +49,20 @@ end sub ' }
 
 sub dynamicOnOpen(frm as form, codeLine as string) ' {
     call dynamicEventHandler(frm, "sub " & "form_open(cancel as integer)", codeLine)
+end sub ' }
+
+' }
+
+sub addCodeLineToFormModule(frm as form, codeLine as string) ' {
+
+  dim mdl as module
+  set mdl = frm.module
+
+  dim pos as long
+  pos = mdl.countOfLines
+
+  call mdl.insertLines(pos+1, codeLine)
+
 end sub ' }
 
 sub replaceModuleWithFile(moduleName as string, pathToFile as string) ' {
