@@ -51,6 +51,10 @@ sub dynamicOnOpen(frm as form, codeLine as string) ' {
     call dynamicEventHandler(frm, "sub " & "form_open(cancel as integer)", codeLine)
 end sub ' }
 
+sub dynamicOnBeforeInsert(frm as form, codeLine as string) ' {
+    call dynamicEventHandler(frm, "sub " & "form_beforeInsert(cancel as integer)", codeLine)
+end sub ' }
+
 ' }
 
 sub addCodeLineToFormModule(frm as form, codeLine as string) ' {
