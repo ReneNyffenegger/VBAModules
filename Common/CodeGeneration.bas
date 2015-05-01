@@ -21,6 +21,13 @@ end sub ' }
 
 ' { Functionalities for event handlers
 
+'
+'   Not all constrols support all events. Find a matrix for which
+'   control supports which event here:
+'
+'     https://msdn.microsoft.com/en-us/library/system.windows.forms.control.click.aspx
+'
+
 sub dynamicEventHandler(frm as Form, subSignatur as string, codeLine as string) ' {
   dim mdl as module
   set mdl = frm.module
@@ -39,12 +46,16 @@ end sub ' }
 '   call dynamicEventHandler(frm, "Form_" & eventName, codeLine)
 ' end sub ' }
 
-sub dynamicEventHandlerControl(frm as form, ctrl as control, codeLine as string, eventName as string) ' {
-    call dynamicEventHandler(frm, "sub " & ctrl.name & "_" & eventName, codeLine)
+sub dynamicEventHandlerControl(frm as form, ctrl as control, codeLine as string, eventName as string, arguments as string) ' {
+    call dynamicEventHandler(frm, "sub " & ctrl.name & "_" & eventName & "(" & arguments & ")", codeLine)
+end sub ' }
+
+sub dynamicOnMouseDown(frm as form, ctrl as control, codeLine as string) ' {
+    call dynamicEventHandlerControl(frm, ctrl, codeLine, "MouseDown", "button as integer, shift as integer, x as single, y as single")
 end sub ' }
 
 sub dynamicOnClick(frm as form, ctrl as control, codeLine as string) ' {
-    call dynamicEventHandlerControl(frm, ctrl, codeLine, "Click")
+    call dynamicEventHandlerControl(frm, ctrl, codeLine, "Click", "")
 end sub ' }
 
 sub dynamicOnOpen(frm as form, codeLine as string) ' {
