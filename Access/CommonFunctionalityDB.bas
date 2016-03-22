@@ -42,7 +42,7 @@ end sub ' }
 function singleSelectValue(stmt as string) as variant ' {
 
 ' Return the one row, one column value of
-' a select statement, such as in Â«select count(*) from xÂ»
+' a select statement, such as in «select count(*) from x»
 
   dim rs as dao.recordSet
   set rs = getRS(stmt)
@@ -50,3 +50,10 @@ function singleSelectValue(stmt as string) as variant ' {
   set rs = nothing
 
 end function ' }
+
+sub importExcelDataIntoTable(tablename as string, pathToWorkbook as string, worksheet as string, optional range as string = "", optional hasFieldNames as boolean = false) ' {
+
+' use acLink to link to the data
+  doCmd.transferSpreadsheet acImport, , tablename, pathToWorkbook, hasFieldNames, worksheet & "!" & range
+
+end sub ' }
