@@ -263,3 +263,9 @@ function cm2pt(byVal cm as double) as long ' {
 
 end function ' }
 
+function pt2cm(byVal pt as long) as double ' {
+
+    pt2cm = pt / 567.0
+
+end function ' }
+
