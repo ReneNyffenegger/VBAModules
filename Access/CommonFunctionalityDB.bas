@@ -11,8 +11,18 @@ function getRS(stmt as string) as dao.recordSet ' {
 end function ' }
 
 sub executeSQL(stmt as string) ' {
+
+    on error goto err
+
 '   call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
     call currentDB().execute(stmt, dbFailOnError)
+
+  done:
+    exit sub
+
+  err:
+    call msgBox("CommonFunctionalityDB - executeSQL" & vbCrLf & err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
+    resume done
 end sub ' }
 
 sub deleteTable(tableName as string) ' {
