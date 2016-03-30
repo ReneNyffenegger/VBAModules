@@ -197,6 +197,34 @@ function createTabCtrl (              _
 
 end function ' }
 
+ ' createImage {
+function createImage (                         _
+            byVal formName      as string    , _
+            byVal section       as acSection , _
+            byVal x_cm          as double    , _
+            byVal y_cm          as double    , _
+            byVal w_cm          as double    , _
+            byVal h_cm          as double    , _
+            byVal imageFileName as string    ) as access.image
+
+    set createImage = createControl(formName, acImage, section, , , cm2pt(x_cm), cm2pt(y_cm), cm2pt(w_cm), cm2pt(h_cm))
+    createImage.picture = imageFileName
+
+end function ' }
+
+ ' createImageNoStretch {
+function createImageNoStretch (                _
+            byVal formName      as string    , _
+            byVal section       as acSection , _
+            byVal x_cm          as double    , _
+            byVal y_cm          as double    , _
+            byVal imageFileName as string    ) as access.image
+
+    set createImageNoStretch = createControl(formName, acImage, section, , , cm2pt(x_cm), cm2pt(y_cm) )
+    createImageNoStretch.picture = imageFileName
+
+end function ' }
+
 sub conditionalFormattingEQStr(tb as textbox, str as string, bgColor as long, fgColor as long) ' {
 
     dim fc as formatCondition
