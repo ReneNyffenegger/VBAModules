@@ -50,19 +50,19 @@ sub dynamicEventHandlerControl(frm as form, ctrl as control, codeLine as string,
     call dynamicEventHandler(frm, "sub " & ctrl.name & "_" & eventName & "(" & arguments & ")", codeLine)
 end sub ' }
 
-sub dynamicOnMouseDown(frm as form, ctrl as control, codeLine as string) ' {
+sub onMouseDown(frm as form, ctrl as control, codeLine as string) ' {
     call dynamicEventHandlerControl(frm, ctrl, codeLine, "MouseDown", "button as integer, shift as integer, x as single, y as single")
 end sub ' }
 
-sub dynamicOnClick(frm as form, ctrl as control, codeLine as string) ' {
+sub onClick(frm as form, ctrl as control, codeLine as string) ' {
     call dynamicEventHandlerControl(frm, ctrl, codeLine, "Click", "")
 end sub ' }
 
-sub dynamicOnOpen(frm as form, codeLine as string) ' {
+sub onOpen(frm as form, codeLine as string) ' {
     call dynamicEventHandler(frm, "sub " & "form_open(cancel as integer)", codeLine)
 end sub ' }
 
-sub dynamicOnBeforeInsert(frm as form, codeLine as string) ' {
+sub onBeforeInsert(frm as form, codeLine as string) ' {
     call dynamicEventHandler(frm, "sub " & "form_beforeInsert(cancel as integer)", codeLine)
 end sub ' }
 
