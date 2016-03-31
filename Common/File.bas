@@ -10,3 +10,11 @@ function slurpFile(fileName as string) as string ' {
    close f
 
 end function ' }
+
+function fileExists(fileName as string) as boolean ' {
+
+' http://stackoverflow.com/a/28237845/180275
+  on error resume next
+  fileExists = (GetAttr(fileName) And vbDirectory) <> vbDirectory 
+
+end function ' }
