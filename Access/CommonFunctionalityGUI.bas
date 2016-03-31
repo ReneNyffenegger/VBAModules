@@ -257,6 +257,14 @@ sub removeAllControlsOnForm(f as form) ' {
 
 end sub ' }
 
+sub appIcon(pathToIcon as string) ' {
+
+' setAppProperty defined in CommonFunctionalityApp.bas
+  call appProperty("AppIcon", dbText, pathToIcon)
+  application.refreshTitleBar
+
+end sub ' }
+
 function cm2pt(byVal cm as double) as long ' {
 
     cm2pt = cm * 567.0
