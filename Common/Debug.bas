@@ -2,17 +2,10 @@ option explicit
 
 private debugFile   as integer
 private indent      as integer
+private fileName_   as string
 
-public sub startDbg(debugFileName as string) ' {
-
-  if not debugEnabled then
-     exit sub
-  end if
-
-  debugFile = freeFile()
-' open debugFileName for output as #debugFile
-  open debugFileName for append as #debugFile
-
+public sub dbgFileName(fileName as string) ' {
+  fileName_ = fileName
 end sub ' }
 
 public sub dbg(text as string) ' {
@@ -21,19 +14,10 @@ public sub dbg(text as string) ' {
      exit sub
   end if
 
-  call startDbg("c:\temp\dbg.txt")
-  write #debugFile, space(indent) & text
+  call startDbg()
+  print #debugFile, space(indent) & text
   call endDbg()
 
-end sub ' }
-
-public sub endDbg() ' {
-
-  if not debugEnabled then
-     exit sub
-  end if
-
-  close #debugFile
 end sub ' }
 
 public sub dbgS(text as string) ' {
@@ -67,3 +51,25 @@ function debugEnabled() as boolean ' {
 ' end if
 
 end function ' }
+
+private sub startDbg() ' {
+
+  if not debugEnabled then
+     exit sub
+  end if
+
+  debugFile = freeFile()
+' open debugFileName for output as #debugFile
+  open fileName_ for append as #debugFile
+
+end sub ' }
+
+private sub endDbg() ' {
+
+  if not debugEnabled then
+     exit sub
+  end if
+
+  close #debugFile
+end sub ' }
+
