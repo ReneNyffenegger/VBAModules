@@ -39,7 +39,9 @@ sub dynamicEventHandler(frm as Form, subSignatur as string, codeLine as string) 
 ' call mdl.insertLines(pos+2, "sub " & subName)
   call mdl.insertLines(pos+2,  subSignatur)      ' for example: sub Foo_Click / sub Form_Open(cancel as integer) / etc
   call mdl.insertLines(pos+3, codeLine)
-  call mdl.insertLines(pos+4, "end sub")    
+
+  pos = mdl.countOfLines
+  call mdl.insertLines(pos+1, "end sub")    
 end sub ' }
 
 ' sub dynamicEventHandlerForm(frm as form, codeLine as string, eventName as string) ' {
@@ -60,6 +62,11 @@ end sub ' }
 
 sub onOpen(frm as form, codeLine as string) ' {
     call dynamicEventHandler(frm, "sub " & "form_open(cancel as integer)", codeLine)
+end sub ' }
+
+sub onLoad(frm as form, codeLine as string) ' {
+'   call dynamicEventHandler(frm, "sub " & "form_load(cancel as integer)", codeLine)
+    call dynamicEventHandler(frm, "sub " & "form_load()", codeLine)
 end sub ' }
 
 sub onBeforeInsert(frm as form, codeLine as string) ' {
