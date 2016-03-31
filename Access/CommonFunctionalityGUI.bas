@@ -265,6 +265,10 @@ sub appIcon(pathToIcon as string) ' {
 
 end sub ' }
 
+sub startupForm(formName as string) ' {
+  call appProperty("StartUpForm", dbText, formName)
+end sub ' }
+
 function cm2pt(byVal cm as double) as long ' {
 
     cm2pt = cm * 567.0
