@@ -144,6 +144,21 @@ function createLabel (                    _
 
 end function ' }
 
+ ' createButton {
+function createButton (                   _
+            byVal formName as string    , _
+            byVal section  as acSection , _
+            byVal x_cm     as double    , _
+            byVal y_cm     as double    , _
+            byVal w_cm     as double    , _
+            byVal h_cm     as double    , _
+            byVal caption  as string    ) as access.commandButton
+
+    set createButton = createControl(formName, acCommandButton, section, , , cm2pt(x_cm), cm2pt(y_cm), cm2pt(w_cm), cm2pt(h_cm))
+    createButton.caption = caption
+
+end function ' }
+
  ' createTextBox {
 function createTextBox (                     _
              byVal formName   as string    , _
