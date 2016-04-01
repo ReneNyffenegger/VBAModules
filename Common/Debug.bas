@@ -26,9 +26,9 @@ public sub dbgS(text as string) ' {
      exit sub
   end if
 
-  indent = indent + 1
+' indent = indent + 1
   call dbg("{ " & text)
-  indent = indent + 1
+  indent = indent + 2
 end sub ' }
 
 public sub dbgE() ' {
@@ -37,9 +37,9 @@ public sub dbgE() ' {
      exit sub
   end if
 
-  indent = indent - 1
+  indent = indent - 2
   call dbg("}")
-  indent = indent - 1
+' indent = indent - 1
 end sub ' }
 
 function debugEnabled() as boolean ' {
