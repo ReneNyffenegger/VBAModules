@@ -11,6 +11,22 @@ function slurpFile(fileName as string) as string ' {
 
 end function ' }
 
+function fileBaseName(filename as string) as string ' {
+
+  dim fso as new fileSystemObject
+
+  fileBaseName = fso.getBaseName(filename)
+
+end function ' }
+
+function fileSuffix(filename as string) as string ' {
+
+  dim fso as new fileSystemObject
+
+  fileSuffix = fso.getExtensionName(filename)
+
+end function ' }
+
 function fileExists(fileName as string) as boolean ' {
 
 ' http://stackoverflow.com/a/28237845/180275
