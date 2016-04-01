@@ -7,10 +7,13 @@ sub runSQLScript(pathToScript as string)
    dim vSqls      as variant
    dim strSql     as string
    dim intF       as integer
+   dim lineNo     as long
 
    intF = FreeFile()
 
    open pathToScript for input As #intF
+
+   on error goto nok
 
    dim oRegExp as object
    set oRegExp = createObject("vbscript.regexp")
@@ -21,7 +24,11 @@ sub runSQLScript(pathToScript as string)
 
    dim stmt as string
    stmt = ""
+
+   lineNo = 0
    do until eof(intF)
+
+      lineNo = lineNo + 1
 
       dim lin as string
       line input #intF, lin
@@ -44,6 +51,14 @@ sub runSQLScript(pathToScript as string)
 
    loop
 
+done:
+
    close #intF
+   exit sub
+
+nok:
+
+  msgBox ("runSQLScript.bas, lineNo = " & lineNo & vbCrLf & err.description)
+  resume done
 
 end sub
