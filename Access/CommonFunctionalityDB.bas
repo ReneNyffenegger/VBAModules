@@ -17,12 +17,15 @@ sub executeSQL(stmt as string) ' {
 '   call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
     call currentDB().execute(stmt, dbFailOnError)
 
-  done:
+' done:
     exit sub
 
   err:
     call msgBox("CommonFunctionalityDB - executeSQL" & vbCrLf & err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
-    resume done
+
+  ' TODO http://www.lazerwire.com/2011/11/excel-vba-re-throw-errorexception.html
+    err.raise err.number, err.source, err.description, err.helpFile, err.helpContext
+'   resume done
 end sub ' }
 
 sub deleteTable(tableName as string) ' {
@@ -63,7 +66,37 @@ end function ' }
 
 sub importExcelDataIntoTable(tablename as string, pathToWorkbook as string, worksheet as string, optional range as string = "", optional hasFieldNames as boolean = false) ' {
 
+  dim worksheet_range as string
+
+  if worksheet = "" then
+     worksheet_range = ""
+  else
+     worksheet_range = worksheet & "!" & range
+  end if
+
 ' use acLink to link to the data
-  doCmd.transferSpreadsheet acImport, , tablename, pathToWorkbook, hasFieldNames, worksheet & "!" & range
+' doCmd.transferSpreadsheet acImport, , tablename, pathToWorkbook, hasFieldNames, worksheet & "!" & range
+  doCmd.transferSpreadsheet acImport, , tablename, pathToWorkbook, hasFieldNames, worksheet_range
+
+end sub ' }
+
+sub importAccessDataIntoTable(tablename as string, pathToDB as string, tablenameSource as string, optional hasFieldNames as boolean = false) ' {
+
+  on error goto nok
+
+' use acLink to link to the data
+
+  doCmd.transferDatabase acImport, "Microsoft Access" , pathToDB, acTable, tablenameSource, tablename
+
+  done:
+  exit sub
+
+  nok:
+  call err.raise(vbObjectError + 1000, "CommonFunctionalityDB.bas", _ 
+     err.description                        & vbCrLf & _
+     "err.number = "      & err.number      & vbCrLf & _
+     "tableName = "       & tableName       & vbCrLf & _
+     "pathToDB  = "       & pathToDB        & vbCrLf & _ 
+     "tablenameSource = " & tablenameSource & vbCrLf)
 
 end sub ' }
