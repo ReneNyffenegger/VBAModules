@@ -93,3 +93,19 @@ public function ADOExecuteSQL(con as ADODB.connection, stmt as string) as long '
     call err.raise(1000 + vbObjectError, "ADOHelper.bas - ADOExecuteSQL",  err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
 
 end function ' }
+
+public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as variant ' {
+
+  dim rs as ADODB.recordset
+
+  set rs = con.execute(stmt)
+
+' if not rs.eof then
+'    rs.moveNext
+     ADOSelect1R1C = rs.fields(0).value
+' end if
+
+  rs.close
+  
+
+end function ' }
