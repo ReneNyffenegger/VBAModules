@@ -1,64 +1,22 @@
-'
-'   http://stackoverflow.com/a/1839290/180275
-'
 sub runSQLScript(pathToScript as string)
 
-   dim vSql       as variant
-   dim vSqls      as variant
-   dim strSql     as string
-   dim intF       as integer
-   dim lineNo     as long
+  dim sqlText as string
 
-   intF = FreeFile()
+  sqlText = slurpFile(pathToScript)
 
-   open pathToScript for input As #intF
+  sqlText = removeSQLComments(sqlText)
 
-   on error goto nok
+  dim sqlStatements() as string
 
-   dim oRegExp as object
-   set oRegExp = createObject("vbscript.regexp")
+  sqlStatements = strings.split(sqlText, ";")
 
-   oRegExp.pattern   = "--.*$"
-   oRegExp.global    = true
-   oRegExp.multiLine = true
+  dbgFileName(currentProject.path & "\log\sql")
 
-   dim stmt as string
-   stmt = ""
+  dim i as long
+  for i = lbound(sqlStatements) to ubound(sqlStatements) - 1 ' Last "statement" is empty because split also returns the part after the last ; -> skip it
+      dbg("sqlStatement = " & sqlStatements(i))
+      call executeSQL(sqlStatements(i))
+  next i
 
-   lineNo = 0
-   do until eof(intF)
-
-      lineNo = lineNo + 1
-
-      dim lin as string
-      line input #intF, lin
-      lin = oRegExp.replace(lin, "")
-
-      if right$(lin, 1) = ";" then
-
-        lin = left$(lin, len(lin)-1)
-        stmt = stmt & lin
-
-      ' executeSQL: see CommonFunctionalityDB.bas
-        call executeSQL(stmt)
-        stmt = ""
-
-      else
-
-        stmt = stmt & lin
-
-      end if
-
-   loop
-
-done:
-
-   close #intF
-   exit sub
-
-nok:
-
-  msgBox ("runSQLScript.bas, lineNo = " & lineNo & vbCrLf & err.description)
-  resume done
 
 end sub
