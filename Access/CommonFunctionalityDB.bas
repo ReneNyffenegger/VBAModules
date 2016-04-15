@@ -10,7 +10,7 @@ function getRS(stmt as string) as dao.recordSet ' {
     set getRS = currentDB().openRecordset(stmt)
 end function ' }
 
-sub executeSQL(stmt as string) ' {
+sub executeSQL(byVal stmt as string) ' {
 
     on error goto err
 
