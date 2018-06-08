@@ -9,6 +9,7 @@
 '   2a  Optionally, you might want to rename the newly inserted module
 '      (Still in the «immediate window»:
 '          vbe.Activevbproject.VBComponents(1).Name = "00_ModuleLoader"
+'       2018-06-09: Apparently, that's not so simple in Excel.
 '
 '   3   Then load the modules by calling
 '          call loadOrReplaceModuleWithFile("fooModule", "c:\path\to\modFoo.bas")
@@ -59,7 +60,9 @@ sub loadMOduleFromFile(moduleName as string, pathToFile as string) ' {
 '   doCmd.save acModule, moduleName
 
 '   This does not generate a runtime error, but
-'   does not seem to save the module, either:
-    doCmd.close acModule, moduleName, acSaveYes
+'   does not seem to save the module, either.
+'   2018-06-09: It appears to be executable with Access only anyway.
+'              (And I have forgotten why it was required).
+'      doCmd.close acModule, moduleName, acSaveYes
 
 end sub ' }
