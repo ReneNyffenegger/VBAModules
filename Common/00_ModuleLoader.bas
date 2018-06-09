@@ -44,7 +44,7 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string) ' {
 
 end sub ' }
 
-sub loadMOduleFromFile(moduleName as string, pathToFile as string) ' {
+sub loadModuleFromFile(moduleName as string, pathToFile as string) ' {
 
     dim vbComp as vbComponent
     set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
