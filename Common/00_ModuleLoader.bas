@@ -18,7 +18,7 @@
 
 option explicit
 
-sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string) ' {
+sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
 
     dim mdl   as module
     dim vbc   as vbComponents
@@ -40,14 +40,22 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string) ' {
        call vbc.remove(vbc(i))
     end if
 
-    call loadMOduleFromFile(moduleName, pathToFile)
+    call loadMOduleFromFile(moduleName, pathToFile, moduleType)
 
 end sub ' }
 
-sub loadModuleFromFile(moduleName as string, pathToFile as string) ' {
+sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as long) ' {
 
     dim vbComp as vbComponent
-    set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
+
+  '
+  ' Seems to always import a «standard» module:
+  '
+  '   set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
+  '
+
+    set vbComp = application.VBE.activeVBProject.vbComponents.add(moduleType)
+    call vbComp.codeModule.addFromFile(pathToFile)
 
     vbComp.name  = moduleName
 
