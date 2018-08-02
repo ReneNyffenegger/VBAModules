@@ -40,7 +40,7 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
        call vbc.remove(vbc(i))
     end if
 
-    call loadMOduleFromFile(moduleName, pathToFile, moduleType)
+    call loadModuleFromFile(moduleName, pathToFile, moduleType)
 
 end sub ' }
 
