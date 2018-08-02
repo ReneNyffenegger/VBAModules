@@ -34,6 +34,37 @@ public sub copyAccessTableToNewAccessTable ( _
 
 end sub ' }
 
+' openADOConnectionToOracle {
+public function openADOConnectionToOracle( _
+   dbUser     as string, _
+   dbPassword as string, _
+   dbName     as string) as ADODB.connection ' {
+
+  on error GoTo error_handler
+
+ ' Dim cn As ADODB.Connection
+ ' set cn = New ADODB.Connection
+   set openADOConnectionToOracle = new ADODB.connection
+
+  openADOConnectionToOracle.open ( _
+     "User ID="     & dbUser     & _
+    ";Password="    & dbPassword & _
+    ";Data Source=" & dbName     & _
+    ";Provider=MSDAORA.1")
+
+ ' set openADOConnectionToOracle = cn
+
+  exit function
+
+error_handler:
+  if   err.number = -2147467259 Then
+       msgBox ("Error opening connection to Oracle: " & err.description)
+  else
+       msgBox (Err.Number & " " & Err.Description)
+  end if
+
+end function ' }
+
 public function openADOConnectionToAccess(accessFile as string) as ADODB.connection ' {
 
   set openADOConnectionToAccess = new ADODB.connection
