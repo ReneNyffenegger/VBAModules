@@ -20,7 +20,7 @@ option explicit
 
 sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
 
-    dim mdl   as module
+ '  dim mdl   as module
     dim vbc   as vbComponents
     dim i     as long
     dim found as boolean
