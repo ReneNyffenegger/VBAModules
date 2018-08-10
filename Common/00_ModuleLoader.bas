@@ -19,6 +19,9 @@
 option explicit
 
 sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
+ '
+ '  3rd argument, moduleType: By default, this sub loads a standard module.
+ '                In order to load a class module, use vbext_ct_ClassModule.
 
  '  dim mdl   as module
     dim vbc   as vbComponents
@@ -60,7 +63,7 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
     vbComp.name  = moduleName
 
 '   Doesn't work, unfortunately
-'   vbComp.saved = true 
+'   vbComp.saved = true
 
 '   Neither does this
 '      (Run-time error 29068: Microsoft Access cannot complete this operation
