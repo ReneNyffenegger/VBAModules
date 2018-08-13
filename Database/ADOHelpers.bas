@@ -1,7 +1,11 @@
+'
+'   Adding ADODB reference to VBA project:
+'     thisWorkbook.VBProject.references.addFromGuid guid := "{2A75196C-D9EB-4129-B803-931327F72D5C}", major := 0, minor := 0
+'
+
 option explicit
 
-
-' copyExcelSheetToNewAccessTable {       
+' copyExcelSheetToNewAccessTable {
 public sub copyExcelSheetToNewAccessTable( _
   excelFile     as string,                 _
   sheetName     as string,                 _
@@ -14,11 +18,11 @@ public sub copyExcelSheetToNewAccessTable( _
 
   set con = openADOConnectionToExcelFile(excelFile, false)
 
-  con.execute("select * into [" & newTableName & "] in '" & accessFile & "' from [" & sheetName & "$]") 
+  con.execute("select * into [" & newTableName & "] in '" & accessFile & "' from [" & sheetName & "$]")
 
 end sub ' }
 
-' copyAccessTableToNewAccessTable {       
+' copyAccessTableToNewAccessTable {
 public sub copyAccessTableToNewAccessTable ( _
   accessFileFrom     as string,              _
   tableNameFrom      as string,              _
@@ -30,7 +34,7 @@ public sub copyAccessTableToNewAccessTable ( _
   dim con as new ADODB.connection
   set con = openADOConnectionToAccess(accessFileFrom)
 
-  con.execute("select * into [" & tableNameTo & "] in '" & accessFileTo & "' from [" & tableNameFrom & "]") 
+  con.execute("select * into [" & tableNameTo & "] in '" & accessFileTo & "' from [" & tableNameFrom & "]")
 
 end sub ' }
 
@@ -137,6 +141,6 @@ public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as varian
 ' end if
 
   rs.close
-  
+
 
 end function ' }
