@@ -144,3 +144,12 @@ public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as varian
 
 
 end function ' }
+
+public function createSelectStatementFromFile(con as ADODB.connection, filename as string) as adoSelectStatement ' {
+
+    set createSelectStatementFromFile = new adoSelectStatement
+    call createSelectStatementFromFile.init(con)
+  ' set createSelectStatementFromFile.adoConnectino = con
+  	createSelectStatementFromFile.sqlFromFile(filename)
+
+end function ' }
