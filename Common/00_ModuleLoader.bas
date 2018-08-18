@@ -9,7 +9,8 @@
 '   2a  Optionally, you might want to rename the newly inserted module
 '      (Still in the «immediate window»:
 '          vbe.Activevbproject.VBComponents(1).Name = "00_ModuleLoader"
-'       2018-06-09: Apparently, that's not so simple in Excel.
+'       2018-08-18: Apparently, in excel, it's a bit more complicated:
+'          application.VBE.activeVBProject.VBComponents(application.VBE.activeVBProject.VBComponents.count).name = "ModleLoader"
 '
 '   3   Then load the modules by calling
 '          call loadOrReplaceModuleWithFile("fooModule", "c:\path\to\modFoo.bas")
