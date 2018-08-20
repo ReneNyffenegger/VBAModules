@@ -29,6 +29,8 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
     dim i     as long
     dim found as boolean
 
+  on error goto err_
+
     set vbc = application.VBE.activeVBProject.vbComponents
 
     found = false
@@ -45,6 +47,13 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
     end if
 
     call loadModuleFromFile(moduleName, pathToFile, moduleType)
+  done_:
+    exit sub
+
+  err_:
+  msgBox "Problem loading module " & pathToFile & " (" & moduleName & ")" & chr(13) & err.description & " [" & err.number & "]"
+    resume done_
+  resume
 
 end sub ' }
 
