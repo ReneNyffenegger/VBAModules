@@ -124,7 +124,6 @@ public function ADOExecuteSQL(con as ADODB.connection, stmt as string) as long '
 
   nok:
 
-    dbgE
     call err.raise(1000 + vbObjectError, "ADOHelper.bas - ADOExecuteSQL",  err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
 
 end function ' }
@@ -147,9 +146,12 @@ end function ' }
 
 public function createSelectStatementFromFile(con as ADODB.connection, filename as string) as adoSelectStatement ' {
 
+    dbg_.indent "adoHelpers.createSelectStatementFromFile, filename = " & filename
+
     set createSelectStatementFromFile = new adoSelectStatement
     call createSelectStatementFromFile.init(con)
-  ' set createSelectStatementFromFile.adoConnectino = con
-  	createSelectStatementFromFile.sqlFromFile(filename)
+    createSelectStatementFromFile.sqlFromFile(filename)
+
+    dbg_.dedent
 
 end function ' }
