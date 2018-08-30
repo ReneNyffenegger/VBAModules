@@ -1,6 +1,8 @@
 '
 ' vim: ft=vb
 '
+' dbg.cls
+'
 option explicit
 
 private indent_     as integer
@@ -33,6 +35,11 @@ public sub dedent() ' {
   end if
 
   indent_ = indent_ - 2
+
+  if indent_ < 0 then
+     indent_ = 0
+     text "! dbg: Warning, indent_ was set to 0"
+  end if
   text "}"
 
 end sub ' }
