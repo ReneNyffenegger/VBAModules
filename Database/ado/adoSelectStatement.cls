@@ -49,10 +49,21 @@ public sub addVarCharParameter(val as string) ' {
     dbg_.dedent
 end sub ' }
 
+public sub addDateParameter(val as date) ' {
+    dbg_.indent "adoSelectStatment: addDateParementer, val = " & val
+    dim param as ADODB.parameter
+    set param = cm.createParameter(, adDate, adParamInput, , val)
+    cm.parameters.append param
+    dbg_.dedent
+end sub ' }
+
 public sub exec() ' as ADODB.recordSet  {
   on error goto err_
     dbg_.indent "adoSelectStatement.exec"
     set rs_   = cm.execute
+    if rs_ is nothing then
+       dbg_.text "rs_ is nothing"
+    end if
     dbg_.dedent
     exit sub
   err_:
@@ -97,6 +108,7 @@ end function ' }
 
 public function col(name as string) as ADODB.field ' {
     attribute name.vb_userMemId = 0
+  on error goto err_:
     dbg_.indent "adoSelectStatement.col, name = " & name
 
     if rs_ is nothing then
@@ -117,4 +129,7 @@ public function col(name as string) as ADODB.field ' {
 
     set col = rs_.fields(name)
     dbg_.dedent
+    exit function
+  err_:
+    error_handler_("adoSelectStatement.col")
 end function ' }
