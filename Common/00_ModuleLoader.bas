@@ -19,22 +19,15 @@
 
 option explicit
 
-sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
- '
- '  3rd argument, moduleType: By default, this sub loads a standard module.
- '                In order to load a class module, use vbext_ct_ClassModule.
+sub removeModule(moduleName as string) ' {
 
- '  dim mdl   as module
+    dim found as boolean
     dim vbc   as vbComponents
     dim i     as long
-    dim found as boolean
-
-  on error goto err_
 
     set vbc = application.VBE.activeVBProject.vbComponents
 
     found = false
-
     for i = 1 to vbc.count
         if  vbc(i).name = moduleName then
             found = true
@@ -46,7 +39,19 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
        call vbc.remove(vbc(i))
     end if
 
+end sub ' }
+
+sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
+ '
+ '  3rd argument, moduleType: By default, this sub loads a standard module.
+ '                In order to load a class module, use vbext_ct_ClassModule.
+
+
+  on error goto err_
+
+    call removeModule(moduleName)
     call loadModuleFromFile(moduleName, pathToFile, moduleType)
+
   done_:
     exit sub
 
@@ -54,6 +59,13 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
   msgBox "Problem loading module " & pathToFile & " (" & moduleName & ")" & chr(13) & err.description & " [" & err.number & "]"
     resume done_
   resume
+
+end sub ' }
+
+sub importModuleOrClass(moduleOrClassName as string, pathToFile as string) ' {
+    
+    call removeModule(moduleOrClassName)
+    call application.VBE.activeVBProject.vbComponents.import(pathToFile)
 
 end sub ' }
 
