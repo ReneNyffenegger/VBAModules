@@ -10,7 +10,7 @@ private fileName_         as string
 private flushImmediately_ as boolean
 '
 public sub class_terminate() ' {
-    if not flushImmediatly_ then closeFile
+    if not flushImmediately_ then closeFile
 end sub ' }
 
 public sub init(fileName as string, optional flushImmediately as boolean = false)
