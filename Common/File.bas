@@ -33,7 +33,7 @@ function fileExists(fileName as string) as boolean ' {
 
 ' http://stackoverflow.com/a/28237845/180275
   on error resume next
-  fileExists = (GetAttr(fileName) And vbDirectory) <> vbDirectory 
+  fileExists = (getAttr(fileName) and vbDirectory) <> vbDirectory 
 
 end function ' }
 
