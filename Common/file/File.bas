@@ -4,14 +4,29 @@ private declare function win32_GetTempPath lib "kernel32" Alias "GetTempPathA" (
 
 function slurpFile(fileName as string) as string ' {
 
-   dim f        as integer
+   dim f as integer
+   f = freeFile()
 
-   f = FreeFile()
    open fileName for input as #f
+
    slurpFile = input(lof(f), #f)
+
    close f
 
 end function ' }
+
+sub flushToFile(filename as string, txt as string) ' {
+
+   dim f as integer
+   f = freeFile()
+
+   open fileName for output as #f
+
+   print# f, txt
+
+   close f
+
+end sub ' }
 
 function fileBaseName(filename as string) as string ' {
 
