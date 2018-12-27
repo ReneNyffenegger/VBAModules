@@ -1,22 +1,20 @@
-sub runSQLScript(pathToScript as string)
+'
+'      TODO: This module should probably be merged with CommonFunctionalityDB.bas
+'
 
-  dim sqlText as string
+option explicit
 
-  sqlText = slurpFile(pathToScript)
+sub runSQLScript(pathToScript as string) ' {
 
-  sqlText = removeSQLComments(sqlText)
+    dim sqlStatements() as string
+    sqlStatements = sqlStatementsOfFile(pathToScript)
 
-  dim sqlStatements() as string
+  ' dbgFileName(currentProject.path & "\log\sql")
 
-  sqlStatements = strings.split(sqlText, ";")
+    dim i as long
+    for i = lbound(sqlStatements) to ubound(sqlStatements) - 1 ' Last "statement" is empty because split also returns the part after the last ; -> skip it
+     ' dbg("sqlStatement = " & sqlStatements(i))
+       call executeSQL(sqlStatements(i))
+    next i
 
-  dbgFileName(currentProject.path & "\log\sql")
-
-  dim i as long
-  for i = lbound(sqlStatements) to ubound(sqlStatements) - 1 ' Last "statement" is empty because split also returns the part after the last ; -> skip it
-      dbg("sqlStatement = " & sqlStatements(i))
-      call executeSQL(sqlStatements(i))
-  next i
-
-
-end sub
+end sub ' }
