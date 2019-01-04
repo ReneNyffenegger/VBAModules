@@ -65,7 +65,7 @@ end sub ' }
 function singleSelectValue(stmt as string) as variant ' {
 
 ' Return the one row, one column value of
-' a select statement, such as in «select count(*) from x»
+' a select statement, such as in Â«select count(*) from xÂ»
 
   dim rs as dao.recordSet
   set rs = getRS(stmt)
