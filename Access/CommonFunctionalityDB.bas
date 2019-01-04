@@ -14,8 +14,18 @@ sub executeSQL(byVal stmt as string) ' {
 
     on error goto err
 
-'   call dbEngine.workspaces(0).databases(0).execute(stmt, dbFailOnError)
-    call currentDB().execute(stmt, dbFailOnError)
+'
+'   2019-01-04:
+'     Apparently, it's not possible to create views via currentDB because
+'     currentDB returns a DAO object...
+'     See https://stackoverflow.com/a/32772851/180275
+'
+'   call currentDB().execute(stmt, dbFailOnError)
+'
+'     However, currentProject.connection returns an ADO connection object
+'     with which it apprently is possible to create views:
+'
+    currentProject.connection.execute stmt
 
 ' done:
     exit sub
@@ -92,11 +102,11 @@ sub importAccessDataIntoTable(tablename as string, pathToDB as string, tablename
   exit sub
 
   nok:
-  call err.raise(vbObjectError + 1000, "CommonFunctionalityDB.bas", _ 
+  call err.raise(vbObjectError + 1000, "CommonFunctionalityDB.bas", _
      err.description                        & vbCrLf & _
      "err.number = "      & err.number      & vbCrLf & _
      "tableName = "       & tableName       & vbCrLf & _
-     "pathToDB  = "       & pathToDB        & vbCrLf & _ 
+     "pathToDB  = "       & pathToDB        & vbCrLf & _
      "tablenameSource = " & tablenameSource & vbCrLf)
 
 end sub ' }
