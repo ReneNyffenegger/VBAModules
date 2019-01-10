@@ -11,6 +11,9 @@ function getRS(stmt as string) as dao.recordSet ' {
 end function ' }
 
 sub executeSQL(byVal stmt as string) ' {
+'
+'   Compare with executeQuery (below)
+'
 
     on error goto err
 
@@ -38,6 +41,20 @@ sub executeSQL(byVal stmt as string) ' {
 '   resume done
 end sub ' }
 
+sub executeQuery(byVal stmt as string) ' {
+'
+'   Compare with executeSQL (above)
+'
+
+    const qryName = "tq84Query"
+
+    dim qry as dao.queryDef
+    set qry = createOrReplaceQuery(qryName, stmt)
+
+    doCmd.openQuery qryName
+
+end sub ' }
+
 sub deleteTable(tableName as string) ' {
     call executeSQL("delete from " & tableName)
 end sub ' }
@@ -47,20 +64,34 @@ sub dropTableIfExists(tablename as string) ' {
     executeSQL("drop table " & tablename)
 end sub ' }
 
-sub createQuery(name as string, stmt as string) ' {
-
-  dim qry as queryDef
+function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' {
+'
+' 2019-01-10: created from sub createQuery
+'
 
   on error resume next
-  set qry = currentDB().queryDefs(name)
+  set createOrReplaceQuery = currentDB().queryDefs(name)
 
-  if not qry is nothing then
+  if not createOrReplaceQuery is nothing then
+   '
+   ' The following sysCmd checks if the query is open.
+   ' Apparently, the doCmd.close (below) does not fail if
+   ' the query is not opened.
+   '
+   ' if sysCmd(acSysCmdGetObjectState, acQuery, name) = acObjStateOpen Then
+
+      '
+      ' A queryDef can only be deleted if it is closed.
+      '
+        doCmd.close acQuery, name
+   ' end if
+
      currentDB().queryDefs.delete(name)
   end if
 
-  set qry = currentDB().createQueryDef(name, stmt)
+  set createOrReplaceQuery = currentDB().createQueryDef(name, stmt)
 
-end sub ' }
+end function ' }
 
 function singleSelectValue(stmt as string) as variant ' {
 
