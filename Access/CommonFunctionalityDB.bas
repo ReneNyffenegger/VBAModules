@@ -84,7 +84,7 @@ function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' 
       '
       ' A queryDef can only be deleted if it is closed.
       '
-        doCmd.close acQuery, name
+        doCmd.close acQuery, name, acSaveNo
    ' end if
 
      currentDB().queryDefs.delete(name)
