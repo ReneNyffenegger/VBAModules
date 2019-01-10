@@ -142,3 +142,12 @@ sub importAccessDataIntoTable(tablename as string, pathToDB as string, tablename
      "tablenameSource = " & tablenameSource & vbCrLf)
 
 end sub ' }
+
+sub closeAllQueryDefs() ' {
+
+    dim qry as dao.queryDef
+    for each qry in currentDb().queryDefs
+        doCmd.close acQuery, qry.name, acSaveNo
+    next qry
+
+end sub ' }
