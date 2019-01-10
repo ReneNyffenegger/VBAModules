@@ -71,6 +71,7 @@ function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' 
 
   on error resume next
   set createOrReplaceQuery = currentDB().queryDefs(name)
+  on error goto 0
 
   if not createOrReplaceQuery is nothing then
    '
