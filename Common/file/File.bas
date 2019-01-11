@@ -53,6 +53,11 @@ function fileExists(fileName as string) as boolean ' {
 end function ' }
 
 public function tempPath() as string ' {
+ '
+ '  2019-01-11: It might probably be easier to
+ '              just use:
+ '                 environ$("TEMP")
+ '
     const MAX_PATH = 260
     tempPath = string$(MAX_PATH, chr$(0))
     win32_GetTempPath MAX_PATH, tempPath
