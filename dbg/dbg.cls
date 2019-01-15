@@ -8,13 +8,26 @@ option explicit
 private indent_     as integer
 private dbgWriter_  as dbgWriter
 
+private function removeSpecialCharacters(txt as string) ' {
+
+  removeSpecialCharacters = replace(txt                    , "{"    , "[")
+  removeSpecialCharacters = replace(removeSpecialCharacters, "}"    , "]")
+  removeSpecialCharacters = replace(removeSpecialCharacters, chr(10), " ")
+  removeSpecialCharacters = replace(removeSpecialCharacters, chr(13), " ")
+
+end function ' }
+
 public sub init(dbgWriter__ as dbgWriter) ' {
     indent_      = 0
     set dbgWriter_  = dbgWriter__
 end sub ' }
 
-public sub text(txt as string) ' {
+private sub text_(txt as string) ' {
     dbgWriter_.out space(indent_) & txt
+end sub ' }
+
+public sub text(txt as string) ' {
+     text_ removeSpecialCharacters(txt)
 end sub ' }
 
 public sub indent(txt as string) ' {
@@ -23,7 +36,7 @@ public sub indent(txt as string) ' {
      exit sub
   end if
 
-  text "{ " & txt
+  text_ "{ " & removeSpecialCharacters(txt)
 
   indent_ = indent_ + 2
 end sub ' }
@@ -40,7 +53,7 @@ public sub dedent() ' {
      indent_ = 0
      text "! dbg: Warning, indent_ was set to 0"
   end if
-  text "}"
+  text_ "}"
 
 end sub ' }
 
