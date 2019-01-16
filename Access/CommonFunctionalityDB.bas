@@ -43,8 +43,13 @@ end sub ' }
 
 sub executeQuery(byVal stmt as string) ' {
 '
-'   Compare with executeSQL (above)
+'   Executes an SQL query and shows the result
+'   in a grid.
 '
+'   Compare with executeSQL (above)
+'   
+
+    on error goto err_
 
     const qryName = "tq84Query"
 
@@ -53,6 +58,10 @@ sub executeQuery(byVal stmt as string) ' {
 
     doCmd.openQuery qryName
 
+    exit sub
+  err_:
+    msgBox("Error in executeQuery: " & err.description & " (" & err.source & ")")
+    showErrors
 end sub ' }
 
 sub deleteTable(tableName as string) ' {
@@ -149,5 +158,14 @@ sub closeAllQueryDefs() ' {
     for each qry in currentDb().queryDefs
         doCmd.close acQuery, qry.name, acSaveNo
     next qry
+
+end sub ' }
+
+sub showErrors() ' {
+
+    dim e as dao.error
+    for each e in dbEngine.errors
+        debug.print(e.source & ": " & e.description)
+    next e
 
 end sub ' }
