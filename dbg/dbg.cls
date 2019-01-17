@@ -23,7 +23,7 @@ public sub init(dbgWriter__ as dbgWriter) ' {
 end sub ' }
 
 private sub text_(txt as string) ' {
-    dbgWriter_.out space(indent_) & txt
+  dbgWriter_.out format(now(), "yyyy-mm-dd hh:MM:ss") & " " & space(indent_) & txt
 end sub ' }
 
 public sub text(txt as string) ' {
