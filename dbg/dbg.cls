@@ -57,6 +57,14 @@ public sub dedent() ' {
 
 end sub ' }
 
+public sub unhandledError() ' {
+
+    text ("Caught unhandled error: " & err.description)
+    dedent
+    err.raise err.number, err.source, err.description
+
+end sub ' }
+
 function enabled() as boolean ' {
 
 ' if environ$("username") = "René" and environ$("computername") = "THINKPAD" then
