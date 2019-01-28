@@ -7,6 +7,10 @@ option explicit
 sub runSQLScript(pathToScript as string) ' {
 
     dim sqlStatements() as string
+
+  '
+  ' sqlStatementsOfFile() is found in ../Database/SQL.bas ( development/languages/VBA/modules/Database/SQL )
+  '
     sqlStatements = sqlStatementsOfFile(pathToScript)
 
   ' dbgFileName(currentProject.path & "\log\sql")
