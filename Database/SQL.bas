@@ -8,7 +8,6 @@ public function removeSQLComments(sqlText as string) as string ' {
 '   remove /* ... */
 
   dim re as new regExp
-' set re = createObject("vbscript.regexp")
 
   re.pattern   = "--.*$"
   re.global    = true
@@ -18,15 +17,13 @@ public function removeSQLComments(sqlText as string) as string ' {
 
 end function ' }
 
-public function sqlStatementsOfFile(pathToScript as string) as string() ' {
+public function sqlStatementsOfFile(pathToScript as string, optional charSet as string = "utf-8") as string() ' {
 
    dim sqlText as string
 
- ' Find slurpFile() @ https://renenyffenegger.ch/notes/development/languages/VBA/modules/Common/File
-   sqlText = slurpFile(pathToScript)
+ ' Find slurpFileCharSet() @ https://renenyffenegger.ch/notes/development/languages/VBA/modules/Common/File
+   sqlText = slurpFileCharSet(pathToScript, charSet)
  
- '
- ' Find removeSQLComments() @ https://renenyffenegger.ch/notes/development/languages/VBA/modules/Database/SQL
    sqlText = removeSQLComments(sqlText)
 
    dim sqlStatements() as string
