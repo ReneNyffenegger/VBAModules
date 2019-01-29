@@ -3,6 +3,12 @@ option explicit
 private declare function win32_GetTempPath lib "kernel32" Alias "GetTempPathA" (byVal nBufferLength as long, byVal lpBuffer As string) as long
 
 function slurpFile(fileName as string) as string ' {
+ '
+ ' 2019-01-29: it turns out, VBA cannot really cope with
+ ' reading utf 8 encoded files.
+ ' Therefor, the ADODB substitue slurpFileCharSet might
+ ' be considered instead.
+ '
 
    dim f as integer
    f = freeFile()
@@ -12,6 +18,25 @@ function slurpFile(fileName as string) as string ' {
    slurpFile = input(lof(f), #f)
 
    close f
+
+end function ' }
+
+function slurpFileCharSet(fileName as string, optional charSet as string = "utf-8") as string
+  '
+  ' Read (slurp) a file in a specific charset.
+  '
+  ' Needs the ADODB reference:
+  '   call application.VBE.activeVBProject.references.addFromGuid("{B691E011-1797-432E-907A-4D8C69339129}", 6, 1)
+  '
+    dim s as new adodb.stream
+    s.charSet = charSet
+
+    s.open
+    s.loadFromFile(filename)
+
+    slurpFileCharSet = s.readText
+
+    s.close
 
 end function ' }
 
