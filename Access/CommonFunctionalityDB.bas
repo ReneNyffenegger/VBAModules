@@ -68,9 +68,35 @@ sub deleteTable(tableName as string) ' {
     call executeSQL("delete from " & tableName)
 end sub ' }
 
-sub dropTableIfExists(tablename as string) ' {
-    on error resume next
-    executeSQL("drop table " & tablename)
+function doesTableExist(tableName as string) as boolean ' {
+
+    if isNull(dLookup("Name", "MSysObjects", "Name='" & tableName & "'")) then
+       doesTableExist = false
+    else
+       doesTableExist = true
+    end if
+
+end function ' }
+
+sub dropTableIfExists(tableName as string) ' {
+
+  if not doesTableExist(tableName) then ' {
+     exit sub
+  end if ' }
+
+  ' 2019-01-30:  on error resume next
+
+  '
+  ' First: close the potentially table in order to prevent error
+  '   »The database engine could not lock table '…' because it is already
+  '    in use by another person or process [-2147217900]«
+  '
+    doCmd.close acTable, tableName, acSaveNo
+
+  '
+  ' Then: drop table
+  '
+    executeSQL("drop table " & tableName)
 end sub ' }
 
 function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' {
