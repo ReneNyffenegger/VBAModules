@@ -99,6 +99,14 @@ sub dropTableIfExists(tableName as string) ' {
     executeSQL("drop table " & tableName)
 end sub ' }
 
+function truncDate(dt as variant) as variant ' {
+  '
+  ' Add the numbers of seconds per day minus one
+  ' to dt and round down.
+  '
+    truncDate = fix(dateAdd("s", 86399, dt))
+end function ' }
+
 function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' {
 '
 ' 2019-01-10: created from sub createQuery
