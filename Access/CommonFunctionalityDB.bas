@@ -64,6 +64,12 @@ sub executeQuery(byVal stmt as string) ' {
     showErrors
 end sub ' }
 
+sub executeQueryFromFile(fileName as string) ' {
+
+    executeQuery(removeSQLComments(slurpFile(fileName)))
+
+end sub ' }
+
 sub deleteTable(tableName as string) ' {
     call executeSQL("delete from " & tableName)
 end sub ' }
