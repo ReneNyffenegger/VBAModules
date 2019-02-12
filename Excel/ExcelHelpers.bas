@@ -7,20 +7,17 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
  '  Return worksheet with the given name.
  '  If it doesn't exist, it is created.
  '
-  '
-  ' Find the worksheet with the given name.
-  '
-  ' If no such worksheet exists, creates it.
-  '
-  ' Optionally, deleteIfExists can be set to true to delete an existing worksheet
-  ' of the given name prior to creating it
-  '
-    if deleteIfExists then
+ '  If no such worksheet exists, creates it.
+ ' 
+ '  Optionally, deleteIfExists can be set to true to delete an existing worksheet
+ '  of the given name prior to creating it
+ ' 
+    if deleteIfExists then ' {
        deleteWorksheet name
-    end if
+    end if ' }
 
     on error goto createWorksheet
-       set getWorksheet = thisWorkbook.sheets(name)
+       set findWorksheet = thisWorkbook.sheets(name)
 
     '  No error: Worksheet exists. We can return
        exit function
