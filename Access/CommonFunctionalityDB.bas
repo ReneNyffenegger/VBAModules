@@ -110,7 +110,7 @@ function truncDate(dt as variant) as variant ' {
   ' Add the numbers of seconds per day minus one
   ' to dt and round down.
   '
-    truncDate = fix(dateAdd("s", 86399, dt))
+    truncDate = cDate(fix(dateAdd("s", 86399, dt)))
 end function ' }
 
 function createOrReplaceQuery(name as string, stmt as string) as dao.queryDef ' {
@@ -198,6 +198,69 @@ sub closeAllQueryDefs() ' {
     for each qry in currentDb().queryDefs
         doCmd.close acQuery, qry.name, acSaveNo
     next qry
+
+end sub ' }
+
+function nvl2(val as variant, retIfNotNull as variant, retIfNull as variant) ' {
+  '
+  ' Simulate Oracle's nvl2 function
+  '
+    if isNull(val) then
+       nvl2 = retIfNull
+       exit function
+    end if
+
+    nvl2 = retIfNotNull
+
+end function ' }
+
+function eq(val_1 as variant, val_2 as variant) as boolean ' {
+
+     if isNull(val_1) then
+        if isNull(val_2) then
+           eq = true
+        else
+           eq = false
+        end if
+        exit function
+    end if
+
+    if isNull (val_2) then
+       eq = false
+       exit function
+    end if
+
+    eq = val_1 = val_2 
+
+end function ' }
+
+sub diff2recordSetsRecords(rs1 as dao.recordSet, rs2 as dao.recordSet) ' {
+
+    dim fld as variant: for each fld in rs1.fields ' {
+
+        if isNull(fld.value) and not isNull(rs2(fld.name)) then ' {
+           debug.print "diff in " & fld.name & ": " & fld.value & " <> " & rs2(fld.name)
+           goto next_fld
+        end if ' }
+
+        if not isNull(fld.value) and isNull(rs2(fld.name)) then ' {
+           debug.print "diff in " & fld.name & ": " & fld.value & " <> " & rs2(fld.name)
+           goto next_fld
+        end if ' }
+
+        if typeName(fld.value) = "Double" then ' {
+           if round(fld, 6) <> round(rs2(fld.name), 6) then
+              debug.print "diff in " & fld.name & ": " & fld.value & " <> " & rs2(fld.name)
+           end if ' }
+        else ' {
+           if fld <> rs2(fld.name) then
+              debug.print "diff in " & fld.name & ": " & fld.value & " <> " & rs2(fld.name)
+           end if
+        end if ' }
+
+next_fld:
+
+    next fld ' }
 
 end sub ' }
 
