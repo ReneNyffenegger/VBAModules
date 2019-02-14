@@ -28,6 +28,16 @@ function parsePossibleDate(possibleDate as string) as variant ' {
     dim re as new regExp
     dim mc as     matchCollection
 
+    if isEmpty(possibleDate) then ' {
+       parsePossibleDate = cvDate(null)
+       exit function
+    end if ' }
+
+    if isError(possibleDate) then ' {
+       parsePossibleDate = cvDate(null)
+       exit function
+    end if ' }
+
     re.pattern = "^(\d\d?)\.(\d\d?).(\d\d\d\d)( \d\d:\d\d)?$"
 
     set mc= re.execute(possibleDate)
@@ -45,7 +55,15 @@ function parsePossibleDate(possibleDate as string) as variant ' {
        exit function
     end if ' }
 
-    parsePossibleDate = vbNull
+    re.pattern = "^(\d+)$" ' The »date« might just be the numbers since 1899-12-30.
+    set mc = re.execute(possibleDate)
+
+    if mc.count > 0 then ' {
+       parsePossibleDate = cDate(mc(0).subMatches(0))
+       exit function
+    end if ' }
+
+    parsePossibleDate = cvDate(null)
 
 end function ' }
 
