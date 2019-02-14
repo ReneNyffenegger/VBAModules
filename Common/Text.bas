@@ -23,7 +23,7 @@ function rpad(text as String, length as integer, optional padChar as string = " 
     rpad = text & string(length - len(text), padChar)
 end function ' }
 
-function parsePossibleDate(possibleDate as string) as variant ' {
+function parsePossibleDate(possibleDate as variant) as variant ' {
 
     dim re as new regExp
     dim mc as     matchCollection
@@ -34,6 +34,14 @@ function parsePossibleDate(possibleDate as string) as variant ' {
     end if ' }
 
     if isError(possibleDate) then ' {
+       parsePossibleDate = cvDate(null)
+       exit function
+    end if ' }
+
+    if possibleDate = "0" then ' {
+    '
+    '  Probably not intended to have december 30th 1899 as date.
+    '
        parsePossibleDate = cvDate(null)
        exit function
     end if ' }
