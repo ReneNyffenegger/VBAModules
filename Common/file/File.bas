@@ -21,7 +21,7 @@ function slurpFile(fileName as string) as string ' {
 
 end function ' }
 
-function slurpFileCharSet(fileName as string, optional charSet as string = "utf-8") as string
+function slurpFileCharSet(fileName as string, optional charSet as string = "utf-8") as string ' {
   '
   ' Read (slurp) a file in a specific charset.
   '
