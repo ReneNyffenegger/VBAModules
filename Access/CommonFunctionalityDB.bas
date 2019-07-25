@@ -2,7 +2,14 @@
 '      CommonFunctionalityDB
 '
 
-option compare database
+' 2019-07-25: It seems that newer versions of Access
+'   automatically add «option cmopare database»
+'   when a VBA module is inserted programmatically.
+'   Therefore: commenting it out:
+'
+' option compare database
+'
+
 option explicit
 
 function getRS(stmt as string) as dao.recordSet ' {
@@ -67,6 +74,25 @@ end sub ' }
 sub executeQueryFromFile(fileName as string) ' {
 
     executeQuery(removeSQLComments(slurpFile(fileName)))
+
+end sub ' }
+
+sub runSQLScript(pathToScript as string) ' {
+
+    dim sqlStatements() as string
+
+  '
+  ' sqlStatementsOfFile() is found in ../Database/SQL.bas ( development/languages/VBA/modules/Database/SQL )
+  '
+    sqlStatements = sqlStatementsOfFile(pathToScript)
+
+  ' dbgFileName(currentProject.path & "\log\sql")
+
+    dim i as long
+    for i = lbound(sqlStatements) to ubound(sqlStatements) - 1 ' Last "statement" is empty because split also returns the part after the last ; -> skip it
+     ' dbg("sqlStatement = " & sqlStatements(i))
+       call executeSQL(sqlStatements(i))
+    next i
 
 end sub ' }
 
