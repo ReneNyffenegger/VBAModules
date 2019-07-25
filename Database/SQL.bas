@@ -4,6 +4,9 @@ public function removeSQLComments(sqlText as string) as string ' {
 '
 '   http://stackoverflow.com/a/1839290/180275
 '
+'   Needs Regexp refereence reference:
+'       call application.VBE.activeVBProject.references.addFromGuid("{3F4DACA7-160D-11D2-A8E9-00104B365C9F}", 5, 5)
+'
 '   TODO: Currently removes -- only, but should also
 '   remove /* ... */
 
