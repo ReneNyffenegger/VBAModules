@@ -45,6 +45,11 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
  '
  '  3rd argument, moduleType: By default, this sub loads a standard module.
  '                In order to load a class module, use vbext_ct_ClassModule.
+ '
+ '  vbext_ct_ClassModule needs the reference to
+ '     «Microsoft Visual Basic for Applications Extensibility 5.3»
+ '  which in the immediate Window of Excel can be set with 
+ '     thisWorkbook.VBProject.references.addFromGuid GUID :="{0002E157-0000-0000-C000-000000000046}", major := 5, minor := 3
 
 
   on error goto err_
@@ -74,7 +79,7 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
     dim vbComp as vbComponent
 
   '
-  ' Seems to always import a «standard» module:
+  ' Seems to always import a «standard» module:
   '
   '   set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
   '
