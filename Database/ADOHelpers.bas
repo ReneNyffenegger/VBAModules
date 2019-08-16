@@ -1,11 +1,17 @@
+'   vi: foldmethod=marker foldmarker={{{,}}}
 '
 '   Adding ADODB reference to VBA project:
-'     thisWorkbook.VBProject.references.addFromGuid guid := "{2A75196C-D9EB-4129-B803-931327F72D5C}", major := 0, minor := 0
+'
+'     ' Microsoft ActiveX Data Objects 2.8 Library
+'       thisWorkbook.VBProject.references.addFromGuid guid := "{2A75196C-D9EB-4129-B803-931327F72D5C}", major := 0, minor := 0
+'
+'     ' Microsoft ActiveX Data Objects 6.1 Library
+'       thisWorkbook.VBProject.references.addFromGuid guid := "{B691E011-1797-432E-907A-4D8C69339129}", major := 6, minor := 1
 '
 
 option explicit
 
-' copyExcelSheetToNewAccessTable {
+' copyExcelSheetToNewAccessTable {{{
 public sub copyExcelSheetToNewAccessTable( _
   excelFile     as string,                 _
   sheetName     as string,                 _
@@ -20,9 +26,9 @@ public sub copyExcelSheetToNewAccessTable( _
 
   con.execute("select * into [" & newTableName & "] in '" & accessFile & "' from [" & sheetName & "$]")
 
-end sub ' }
+end sub ' }}}
 
-' copyAccessTableToNewAccessTable {
+' copyAccessTableToNewAccessTable {{{
 public sub copyAccessTableToNewAccessTable ( _
   accessFileFrom     as string,              _
   tableNameFrom      as string,              _
@@ -36,13 +42,13 @@ public sub copyAccessTableToNewAccessTable ( _
 
   con.execute("select * into [" & tableNameTo & "] in '" & accessFileTo & "' from [" & tableNameFrom & "]")
 
-end sub ' }
+end sub ' }}}
 
-' openADOConnectionToOracle {
+' openADOConnectionToOracle {{{
 public function openADOConnectionToOracle( _
    dbUser     as string, _
    dbPassword as string, _
-   dbName     as string) as ADODB.connection ' {
+   dbName     as string) as ADODB.connection
 
   on error GoTo error_handler
 
@@ -64,19 +70,44 @@ error_handler:
   if   err.number = -2147467259 Then
        msgBox ("Error opening connection to Oracle: " & err.description)
   else
-       msgBox (Err.Number & " " & Err.Description)
+       msgBox (err.Number & " " & err.Description)
   end if
 
-end function ' }
+end function ' }}}
 
-public function openADOConnectionToAccess(accessFile as string) as ADODB.connection ' {
+' openADOConnectionToSQLServer {{{
+public function openADOConnectionToSQLServer( _
+   dbInstance as string, _
+   dbName     as string) as ADODB.connection
+
+  on error GoTo error_handler
+
+  set openADOConnectionToSQLServer = new ADODB.connection
+  openADOConnectionToSQLServer.open (        _
+     "Provider=SQLOLEDB;"                  & _
+     "Data Source="     & dbInstance & ";" & _
+     "Initial Catalog=" & dbName     & ";" & _
+     "Integrated Security=SSPI;")
+
+  exit function
+
+error_handler:
+  if   err.number = -2147467259 Then
+       msgBox ("Error opening connection to SQL Server: " & err.description)
+  else
+       msgBox (err.Number & " " & err.Description)
+  end if
+
+end function ' }}}
+
+public function openADOConnectionToAccess(accessFile as string) as ADODB.connection ' {{{
 
   set openADOConnectionToAccess = new ADODB.connection
   openADOConnectionToAccess.open "Provider=Microsoft.ACE.OLEDB.12.0;Data Source='" & accessFile & "'"
 
-end function ' }
+end function ' }}}
 
-public function openADOConnectionToExcelFile(excelFile as string, optional header as boolean = true) as ADODB.connection ' {
+public function openADOConnectionToExcelFile(excelFile as string, optional header as boolean = true) as ADODB.connection ' {{{
 
   set openADOConnectionToExcelFile = new ADODB.connection
 
@@ -90,9 +121,9 @@ public function openADOConnectionToExcelFile(excelFile as string, optional heade
 
   openADOConnectionToExcelFile.open
 
-end function ' }
+end function ' }}}
 
-' ADODoesTableExist {
+' ADODoesTableExist {{{
 public function ADODoesTableExist( _
     con       as ADODB.connection, _
     tableName as string            _
@@ -113,9 +144,9 @@ public function ADODoesTableExist( _
   rsSchema.Close
   set rsSchema = Nothing
 
-end function ' }
+end function ' }}}
 
-public function ADOExecuteSQL(con as ADODB.connection, stmt as string) as long ' {
+public function ADOExecuteSQL(con as ADODB.connection, stmt as string) as long ' {{{
   on error goto nok
 
     call con.execute(stmt, ADOExecuteSQL)
@@ -126,9 +157,9 @@ public function ADOExecuteSQL(con as ADODB.connection, stmt as string) as long '
 
     call err.raise(1000 + vbObjectError, "ADOHelper.bas - ADOExecuteSQL",  err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
 
-end function ' }
+end function ' }}}
 
-public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as variant ' {
+public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as variant ' {{{
 
   dim rs as ADODB.recordset
 
@@ -142,9 +173,9 @@ public function ADOSelect1R1C(con as ADODB.connection, stmt as string) as varian
   rs.close
 
 
-end function ' }
+end function ' }}}
 
-public function createSelectStatementFromFile(con as ADODB.connection, filename as string) as adoSelectStatement ' {
+public function createSelectStatementFromFile(con as ADODB.connection, filename as string) as adoSelectStatement ' {{{
 
     dbg_.indent "adoHelpers.createSelectStatementFromFile, filename = " & filename
 
@@ -154,4 +185,4 @@ public function createSelectStatementFromFile(con as ADODB.connection, filename 
 
     dbg_.dedent
 
-end function ' }
+end function ' }}}
