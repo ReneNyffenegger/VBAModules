@@ -1,6 +1,6 @@
 option explicit
 
-private declare ptrSafe function win32_GetTempPath lib "kernel32" Alias "GetTempPathA" (byVal nBufferLength as long, byVal lpBuffer As string) as long
+private declare ptrSafe function win32_GetTempPath lib "kernel32" alias "GetTempPathA" (byVal nBufferLength as long, byVal lpBuffer As string) as long
 
 function slurpFile(fileName as string) as string ' {
  '
