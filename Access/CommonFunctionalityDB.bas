@@ -17,7 +17,9 @@ function getRS(stmt as string) as dao.recordSet ' {
     set getRS = currentDB().openRecordset(stmt)
 end function ' }
 
-sub executeSQL(byVal stmt as string) ' {
+function executeSQL(byVal stmt as string) as long ' {
+'
+'   Returns the numbers of rows affected.
 '
 '   Compare with executeQuery (below)
 '
@@ -35,10 +37,10 @@ sub executeSQL(byVal stmt as string) ' {
 '     However, currentProject.connection returns an ADO connection object
 '     with which it apprently is possible to create views:
 '
-    currentProject.connection.execute stmt
+    currentProject.connection.execute stmt, executeSQL
 
 ' done:
-    exit sub
+    exit function
 
   err:
     call msgBox("CommonFunctionalityDB - executeSQL" & vbCrLf & err.description & " [" & err.number & "]"& vbCrLf & "stmt = " & stmt)
@@ -46,7 +48,7 @@ sub executeSQL(byVal stmt as string) ' {
   ' TODO http://www.lazerwire.com/2011/11/excel-vba-re-throw-errorexception.html
     err.raise err.number, err.source, err.description, err.helpFile, err.helpContext
 '   resume done
-end sub ' }
+end function ' }
 
 sub executeQuery(byVal stmt as string) ' {
 '
@@ -132,6 +134,12 @@ sub dropTableIfExists(tableName as string) ' {
 end sub ' }
 
 function truncDate(dt as variant) as variant ' {
+
+    if isNull(dt) then
+       truncDate = null
+       exit function
+    end if
+
   '
   ' Add the numbers of seconds per day minus one
   ' to dt and round down.
