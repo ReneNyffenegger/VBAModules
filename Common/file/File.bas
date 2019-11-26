@@ -6,7 +6,7 @@ function slurpFile(fileName as string) as string ' {
  '
  ' 2019-01-29: it turns out, VBA cannot really cope with
  ' reading utf 8 encoded files.
- ' Therefor, the ADODB substitue slurpFileCharSet might
+ ' Therefore, the ADODB substitue slurpFileCharSet might
  ' be considered instead.
  '
 
