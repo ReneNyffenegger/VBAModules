@@ -10,14 +10,28 @@ private fileName_         as string
 private flushImmediately_ as boolean
 '
 public sub class_terminate() ' {
-    if not flushImmediately_ then closeFile
+' 2019-12-03 Why did I have this `if not` condition?
+' 2019-12-03       if not flushImmediately_ then closeFile
+    closeFile
 end sub ' }
 
 public sub init(fileName as string, optional flushImmediately as boolean = false)
+  '
+  ' When using dbgFileWriter, it's probably advisable to explicitely
+  ' use the VBA `end` statement when done.
+  '
+
     fileName_         = fileName
     flushImmediately_ = flushImmediately
 
-    if not flushImmediately_ then openFile
+' 2019-12-03    Is it correct to only open the file if `not flushImmediately_`
+' 2019-12-03         if not flushImmediately_ then openFile
+    if debugFile = 0 then
+       openFile
+    else
+       err.raise 999, "dbgFileWriter", "debugFile = " & debugFile
+    end if
+
 end sub
 
 public sub dbgWriter_out(txt as string) ' {
