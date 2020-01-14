@@ -306,3 +306,12 @@ sub showErrors() ' {
     next e
 
 end sub ' }
+
+function removeLiteralGuidFromString(byVal s as string) as string ' {
+ '
+ ' Apparently, Access returns a guid as a string in the following format: "{guid {…}}"
+ ' This function rectifies such string
+ '
+   removeLiteralGuidFromString=mid(s, 7, 7+31)
+
+end function ' }
