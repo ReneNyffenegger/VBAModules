@@ -52,6 +52,12 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
  '     thisWorkbook.VBProject.references.addFromGuid GUID :="{0002E157-0000-0000-C000-000000000046}", major := 5, minor := 3
 
 
+' Before doing anything: check if indicated file exists:
+  if len(dir(pathToFile)) = 0 then
+     msgBox "Path '" & pathToFile & "' does not exit"
+     exit sub
+  end if
+
   on error goto err_
 
     call removeModule(moduleName)
