@@ -1,3 +1,6 @@
+'
+' TODO 2020-02-25: with the implementation of file.cls, this file "File.bas" should probably be renamed.
+'
 option explicit
 
 private declare ptrSafe function win32_GetTempPath lib "kernel32" alias "GetTempPathA" (byVal nBufferLength as long, byVal lpBuffer As string) as long
