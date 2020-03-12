@@ -3,7 +3,7 @@
 '
 
 ' 2019-07-25: It seems that newer versions of Access
-'   automatically add «option cmopare database»
+'   automatically add «option compare database»
 '   when a VBA module is inserted programmatically.
 '   Therefore: commenting it out:
 '
