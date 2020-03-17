@@ -248,14 +248,31 @@ function nvl2(val as variant, retIfNotNull as variant, retIfNull as variant) ' {
 
 end function ' }
 
-function coalesce(v1 as variant, v2 as variant, optional v3 as variant = null, optional v4 as variant = null, optional v5 as variant = null, optional v6 as variant = null, optional v7 as variant = null, optional v8 as variant = null, optional v9 as variant = null) as variant ' {
+function coalesce(v1 as variant, v2 as variant, optional v3 as variant = null, optional v4 as variant = null, optional v5 as variant = null, optional v6 as variant = null, optional v7 as variant = null, optional v8 as variant = null, optional v9 as variant = null, optional v10 as variant = null) as variant ' {
 
-   if not isNull(v1) then
-      coalesce = v1
-      exit function
+   if     not isNull(v1 ) then
+          coalesce = v1
+   elseif not isNull(v2 ) then
+          coalesce = v2
+   elseif not isNull(v3 ) then
+          coalesce = v3
+   elseif not isNull(v4 ) then
+          coalesce = v4
+   elseif not isNull(v5 ) then
+          coalesce = v5
+   elseif not isNull(v6 ) then
+          coalesce = v6
+   elseif not isNull(v7 ) then
+          coalesce = v7
+   elseif not isNull(v8 ) then
+          coalesce = v8
+   elseif not isNull(v9 ) then
+          coalesce = v9
+   elseif not isNull(v10) then
+          coalesce = v10
    end if
 
-   coalesce = coalesce(v2, v3, v4, v5, v6, v7, v8, v9)
+'  coalesce = coalesce(v2, v3, v4, v5, v6, v7, v8, v9, v10)
 
 end function ' }
 
