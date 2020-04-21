@@ -23,7 +23,7 @@ public sub print_(txt as string) ' {
 end sub ' }
 
 public sub printWithNL(txt as string) ' {
-    print# fileNumber, txt  ' No semicolon to prevent printing of new line
+    print# fileNumber, txt  ' No semicolon, print new line
 end sub ' }
 
 public sub close_ ' {
