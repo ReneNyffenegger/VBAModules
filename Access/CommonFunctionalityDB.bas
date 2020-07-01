@@ -21,6 +21,9 @@ function executeSQL(byVal stmt as string) as long ' {
 '
 '   Returns the numbers of rows affected.
 '
+'   There is also the access method doCmd.runSql …
+'   However, doCmd.runSQL does not allow to create views.
+'
 '   Compare with executeQuery (below)
 '
 
