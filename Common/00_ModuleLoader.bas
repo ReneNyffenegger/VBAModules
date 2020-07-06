@@ -32,7 +32,7 @@ sub removeModule(moduleName as string) ' {
 
     found = false
     for i = 1 to vbc.count
-        if  vbc(i).name = moduleName then
+        if  strComp(vbc(i).name, moduleName, vbTextCompare) = 0 then
             found = true
             exit for
         end if
