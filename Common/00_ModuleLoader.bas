@@ -2,11 +2,14 @@
 '
 '   1   Create a module, copy paste content of this file into new module
 '
-'   2   In «Immediate Window» (german: «Direktfenster») to be found under Menu «View» (german: «Ansicht»)
-'       or using Ctrl-G) , first do
+'   2   Add reference to «Microsoft Visual Basic for Applictions Extensibility 5.3»
+'
+'       This can be done in the «Immediate Window» (German: «Direktfenster»), to be found under Menu «View» (German: «Ansicht»),
+'       or using Ctrl-G):
 '          call application.VBE.activevbProject.references.addFromGuid ("{0002E157-0000-0000-C000-000000000046}", 5, 3)
-
+'
 '   2a  Optionally, you might want to rename the newly inserted module
+'
 '      (Still in the «immediate window»:
 '          vbe.Activevbproject.VBComponents(1).Name = "00_ModuleLoader"
 '       2018-08-18: Apparently, in excel, it's a bit more complicated:
