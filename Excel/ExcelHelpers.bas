@@ -1,6 +1,9 @@
+'
+'      Depends on ../Common/Collection.bas
+'
 option explicit
 
-function findWorksheet(name as string, optional deleteIfExists as boolean = false) as excel.worksheet ' {
+function findWorksheet(name as string, optional deleteIfExists as boolean = false, optional wb as workbook = nothing) as excel.worksheet ' {
  '
  '  TODO: https://renenyffenegger.ch/notes/Microsoft/Office/Excel/Object-Model/Worksheet/index -> getWorksheet.bas
  '
@@ -10,8 +13,13 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
  '  Optionally, deleteIfExists can be set to true to delete an existing worksheet
  '  of the given name prior to creating it
  ' 
+   
+    if wb is nothing then
+       set wb = activeWorkbook
+    end if
+
     if deleteIfExists then ' {
-       deleteWorksheet name
+       deleteWorksheet name, wb
     end if ' }
 
     on error goto createWorksheet
@@ -28,22 +36,38 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
 
 end function ' }
 
-sub deleteWorksheet(name_ as string) ' {
- '
- '  https://stackoverflow.com/a/31475530/180275
- '
-    dim i as long : for i = sheets.count to 1 step -1 ' {
-     '
-     '  We're trying to delete a worksheet… therefore
-     '  we loop backward.
-     '
-        if sheets(i).name = name_ then ' {
-            application.displayAlerts = false
-            sheets(i).delete
-            application.displayAlerts = true
-        end if ' }
+sub deleteWorksheet(name_ as string, wb as workbook) ' {
 
-    next i ' }
+    dim ws as worksheet
+    set ws = collObjectOrNothing(wb.sheets, name_)
+
+    if not ws is nothing then ' {
+
+       dim da as boolean : da = application.displayAlerts
+
+       application.displayAlerts = false
+
+       ws.delete
+
+       application.displayAlerts = da
+
+    end if ' }
+
+'Q '
+'Q '  https://stackoverflow.com/a/31475530/180275
+'Q '
+'Q    dim i as long : for i = sheets.count to 1 step -1 ' {
+'Q     '
+'Q     '  We're trying to delete a worksheet… therefore
+'Q     '  we loop backward.
+'Q     '
+'Q        if sheets(i).name = name_ then ' {
+'Q            application.displayAlerts = false
+'Q            sheets(i).delete
+'Q            application.displayAlerts = true
+'Q        end if ' }
+'Q
+'Q    next i ' }
 
 end sub ' }
 

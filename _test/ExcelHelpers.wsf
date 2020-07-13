@@ -1,0 +1,32 @@
+<job>
+<script language="VBScript" src="VBS-MS-Office-App-Creator\create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "ExcelHelper.xlsm")
+   if xls is nothing then ' {
+      wscript.echo("Could not create excel worksheet.")
+      wscript.quit(-1)
+   end if ' }
+
+   set app = xls.application
+
+   call insertModule(app, currentDir() & "ExcelHelpers.bas"         , "testExcelHelper", 1)
+   call insertModule(app, currentDir() & "../Excel/ExcelHelpers.bas", "ExcelHelper"    , 1)
+   call insertModule(app, currentDir() & "../Common/Collection.bas" , "coll"           , 1)
+
+   call app.run("test_ExcelHelpers")
+
+   xls.save
+
+   wscript.echo("The end")
+
+ '
+ ' Bring created Excel Workbook to the front:
+ '
+   createObject("WScript.Shell").appActivate(app.caption)
+
+</script> </job>
