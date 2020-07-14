@@ -1,6 +1,6 @@
 option explicit
 
-function collObjectOrNothing(coll as variant, name as string) as object ' {
+function collObjectOrNothing(coll as variant, byVal name as string) as object ' {
  '
  ' coll is defined as a variant so that all kinds of collections can
  ' be passed (such as excel.workbook.sheets etc.) as well as the vba.collection
@@ -14,22 +14,22 @@ function collObjectOrNothing(coll as variant, name as string) as object ' {
 
    err_:
    
-      if err.number <> 9 then ' 9 = Subscript out of range ' {
-         msgBox "collectionItemOrNothing: " & err.number & " - " & err.description
-      end if ' }
+'     if err.number <> 9 then ' 9 = Subscript out of range ' {
+'        msgBox "collectionItemOrNothing: " & err.number & " - " & err.description
+'     end if ' }
 
       set collObjectOrNothing = nothing
 
 end function ' }
 
-public function isKeyInColl(coll as variant, key as variant) as boolean ' {
+public function isKeyInColl(coll as variant, byVal key as variant) as boolean ' {
 '
 '
 ' Compare
 '    https://stackoverflow.com/a/991900/180275
 '
 
-  if collectionItemOrNothing(coll, key) is nothing then
+  if collObjectOrNothing(coll, key) is nothing then
      isKeyInColl = false
   else
      isKeyInColl = true

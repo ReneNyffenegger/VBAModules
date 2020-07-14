@@ -10,13 +10,17 @@ sub test_excelHelpers() ' {
 
     ws_foo.cells(1,1) = "foo"
     ws_bar.cells(1,1) = "XXXXX"
-    ws_baz.cells(1,1) = "bar"
+    ws_baz.cells(1,1) = "baz"
 
     set ws_bar = findWorksheet("bar", deleteIfExists := true)
-    msgBox(ws_bar.cells(1,1))
+    if ws_bar.cells(1,1) <> "" then ' {
+       msgBox "bar: nok"
+    end if ' }
 
     set ws_baz = findWorksheet("baz", deleteIfExists := false)
-    msgBox(ws_baz.cells(1,1))
+    if ws_baz.cells(1,1) <> "baz" then ' {
+       msgBox "baz: nok"
+    end if ' }
 
     dim sh_nothing as worksheet
     set sh_nothing = collObjectOrNothing(activeWorkbook.sheets, "does not exist")
