@@ -125,6 +125,9 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
   ' When trying to debug it, the addFromFile line says
   '   «Can't enter break mode at this time»
   '
+  ' Addendum: this seems to be the case when VBA code
+  ' is running but stuck with an error.
+  '
     msgBox "loadModuleFromFile (" & moduleName & ", " & pathToFile & ": " & VBNewLine & err.description & " (" & err.number & ")"
      
 
