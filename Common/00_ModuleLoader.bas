@@ -85,6 +85,8 @@ end sub ' }
 
 sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as long) ' {
 
+  on error goto err_
+
     dim vbComp as vbComponent
 
   '
@@ -94,7 +96,7 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
   '
 
     set vbComp = application.VBE.activeVBProject.vbComponents.add(moduleType)
-    call vbComp.codeModule.addFromFile(pathToFile)
+    vbComp.codeModule.addFromFile pathToFile
 
     vbComp.name  = moduleName
 
@@ -111,5 +113,15 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
 '   2018-06-09: It appears to be executable with Access only anyway.
 '              (And I have forgotten why it was required).
 '      doCmd.close acModule, moduleName, acSaveYes
+  exit sub
+
+  err_:
+  '
+  ' 2020-07-15: Sometimes, there are errors, that seem to be
+  ' thrown in the addFromFile method (or when it is called)
+  ' which are not caught in this error handler.
+  '
+    msgBox "loadModuleFromFile (" & moduleName & ", " & pathToFile & ": " & VBNewLine & err.description & " (" & err.number & ")"
+     
 
 end sub ' }
