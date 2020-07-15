@@ -117,9 +117,13 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
 
   err_:
   '
-  ' 2020-07-15: Sometimes, there are errors, that seem to be
-  ' thrown in the addFromFile method (or when it is called)
-  ' which are not caught in this error handler.
+  ' 2020-07-15: Sometimes, there are is the runtime error
+  '    424: Object required
+  ' that seem to be thrown in the addFromFile method (or
+  ' when it is called) which are not caught in this error handler.
+  '
+  ' When trying to debug it, the addFromFile line says
+  '   «Can't enter break mode at this time»
   '
     msgBox "loadModuleFromFile (" & moduleName & ", " & pathToFile & ": " & VBNewLine & err.description & " (" & err.number & ")"
      
