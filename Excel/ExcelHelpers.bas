@@ -71,6 +71,33 @@ sub deleteWorksheet(name_ as string, wb as workbook) ' {
 
 end sub ' }
 
+sub deleteRange(name_ as string, optional ws as worksheet = nothing) ' {
+
+    if ws is nothing then
+       set ws = activeWorkbook.activeSheet
+    end if
+
+ on error goto err_
+
+    dim rng as range
+    set rng = ws.range(name_)
+
+ on error goto 0
+
+    rng.clearFormats
+    rng.clearContents
+
+    ws.parent.names(name_).delete
+
+    exit sub
+
+ err_:
+    if err.number <> 1004 then ' 1004 = Application-defined or object-defined error
+        msgBox "deleteRange: " & err.number & chr(10) & err.description
+    end if
+  
+end sub ' }
+
 sub freezeHeader(ws as excel.workSheet, optional bottomRow as long = 1) ' {
 
     ws.activate
