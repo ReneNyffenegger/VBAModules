@@ -24,6 +24,9 @@ end function ' }
 
 public function isKeyInColl(coll as variant, byVal key as variant) as boolean ' {
 '
+' For example in Excel:
+'   debug.print(isKeyInColl(thisWorkbook.worksheets, "expected sheet name"))
+'
 '
 ' Compare
 '    https://stackoverflow.com/a/991900/180275
