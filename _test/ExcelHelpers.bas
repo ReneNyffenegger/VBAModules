@@ -37,7 +37,6 @@ private sub test_findWorksheet() ' {
 
 end sub ' }
 
-
 private sub test_deleteRange() ' {
 
     dim ws_rng as worksheet
