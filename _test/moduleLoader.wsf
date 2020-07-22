@@ -1,0 +1,28 @@
+<job>
+<script language="VBScript" src="VBS-MS-Office-App-Creator\create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "00_ModuleLoader.xlsm")
+   if xls is nothing then ' {
+      wscript.echo("Could not create excel worksheet.")
+      wscript.quit(-1)
+   end if ' }
+
+   set app = xls.application
+
+   call insertModule(app, currentDir() & "moduleLoader.bas"             , "testModuleLoader", 1)
+   call insertModule(app, currentDir() & "../Common/00_ModuleLoader.bas", "Text"            , 1)
+
+   call app.run("test_moduleLoader")
+
+   xls.save
+
+   wscript.echo("The end")
+
+   createObject("WScript.Shell").appActivate(app.caption)
+
+</script> </job>

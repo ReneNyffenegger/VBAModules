@@ -44,7 +44,7 @@ sub removeModule(moduleName as string) ' {
 
 end sub ' }
 
-sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) ' {
+function loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, optional moduleType as long = vbext_ct_StdModule) as vbComponent ' {
  '
  '  3rd argument, moduleType: By default, this sub loads a standard module.
  '                In order to load a class module, use vbext_ct_ClassModule.
@@ -58,23 +58,23 @@ sub loadOrReplaceModuleWithFile(moduleName as string, pathToFile as string, opti
 ' Before doing anything: check if indicated file exists:
   if len(dir(pathToFile)) = 0 then
      msgBox "Path '" & pathToFile & "' does not exit"
-     exit sub
+     exit function
   end if
 
   on error goto err_
 
     call removeModule(moduleName)
-    call loadModuleFromFile(moduleName, pathToFile, moduleType)
+    set loadOrReplaceModuleWithFile = loadModuleFromFile(moduleName, pathToFile, moduleType)
 
   done_:
-    exit sub
+    exit function
 
   err_:
   msgBox "Problem loading module " & pathToFile & " (" & moduleName & ")" & chr(13) & err.description & " [" & err.number & "]"
     resume done_
   resume
 
-end sub ' }
+end function ' }
 
 sub importModuleOrClass(moduleOrClassName as string, pathToFile as string) ' {
     
@@ -83,11 +83,9 @@ sub importModuleOrClass(moduleOrClassName as string, pathToFile as string) ' {
 
 end sub ' }
 
-sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as long) ' {
+function loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as long) as vbComponent ' {
 
   on error goto err_
-
-    dim vbComp as vbComponent
 
   '
   ' Seems to always import a «standard» module:
@@ -95,10 +93,10 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
   '   set vbComp = application.VBE.activeVBProject.vbComponents.import(pathToFile)
   '
 
-    set vbComp = application.VBE.activeVBProject.vbComponents.add(moduleType)
-    vbComp.codeModule.addFromFile pathToFile
+    set loadModuleFromFile = application.VBE.activeVBProject.vbComponents.add(moduleType)
+    loadModuleFromFile.codeModule.addFromFile pathToFile
 
-    vbComp.name  = moduleName
+    loadModuleFromFile.name  = moduleName
 
 '   Doesn't work, unfortunately
 '   vbComp.saved = true
@@ -113,7 +111,7 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
 '   2018-06-09: It appears to be executable with Access only anyway.
 '              (And I have forgotten why it was required).
 '      doCmd.close acModule, moduleName, acSaveYes
-  exit sub
+  exit function
 
   err_:
   '
@@ -131,4 +129,4 @@ sub loadModuleFromFile(moduleName as string, pathToFile as string, moduleType as
     msgBox "loadModuleFromFile (" & moduleName & ", " & pathToFile & ": " & VBNewLine & err.description & " (" & err.number & ")"
      
 
-end sub ' }
+end function ' }
