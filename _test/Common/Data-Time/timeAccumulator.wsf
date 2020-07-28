@@ -1,0 +1,31 @@
+<job>
+<script language="VBScript" src="..\..\VBS-MS-Office-App-Creator\create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "ExcelHelper.xlsm")
+   if xls is nothing then ' {
+      wscript.echo("Could not create excel worksheet.")
+      wscript.quit(-1)
+   end if ' }
+
+   set app = xls.application
+
+   insertModule app, currentDir() & "timeAccumulator.bas"      , "func"                               , 1
+   insertModule app, currentDir() & "../../../Common/Date-Time/timeAccumulator.cls", "timeAccumulator", 2
+
+   call app.run("main")
+
+   xls.save
+
+   wscript.echo("The end")
+
+ '
+ ' Bring created Excel Workbook to the front:
+ '
+   createObject("WScript.Shell").appActivate(app.caption)
+
+</script> </job>
