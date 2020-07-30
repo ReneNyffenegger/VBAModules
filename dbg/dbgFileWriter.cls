@@ -1,6 +1,9 @@
 '
 '  vim: ft=vb
 '
+'  History
+'    0.02   2020-07-30   In dbgWriter_out(): call flush() if flushImmediately_ is true
+'
 option explicit
 
 implements dbgWriter
@@ -24,8 +27,6 @@ public sub init(fileName as string, optional flushImmediately as boolean = false
     fileName_         = fileName
     flushImmediately_ = flushImmediately
 
-' 2019-12-03    Is it correct to only open the file if `not flushImmediately_`
-' 2019-12-03         if not flushImmediately_ then openFile
     if debugFile = 0 then
        openFile
     else
@@ -36,11 +37,9 @@ end sub
 
 public sub dbgWriter_out(txt as string) ' {
 
-    if flushImmediately_ then openFile
-
     print #debugFile, txt
 
-    if flushImmediately_ then   closeFile
+    if flushImmediately_ then flush
 
 end sub ' }
 
@@ -57,8 +56,11 @@ private sub openFile() ' {
 end sub ' }
 '
 private sub closeFile() ' {
+
     if debugFile <> 0 then
        close #debugFile
     end if
+
     debugFile = 0
+
 end sub ' }

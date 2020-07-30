@@ -5,6 +5,8 @@
 '
 ' https://stackoverflow.com/a/198702/180275 was helpful
 '
+' Version 0.02 - make stopAccumulating a function
+'
 
 private type LARGE_INTEGER ' { winnt.h
     LowPart  as long
@@ -16,7 +18,7 @@ private declare function QueryPerformanceFrequency lib "kernel32" (lpFrequency  
 
 const two_32 as double = 4294967296# ' 256^4
 
-private freq            as double
+public  freq            as double
 private accumulatedTime as double
 private startedTime     as double
 
@@ -49,13 +51,23 @@ public sub startAccumulating() ' {
 
 end sub ' }
 
-public sub stopAccumulating() ' {
+public function stopAccumulating() as double ' {
+  '
+  ' This function determines the amout of time spent, in ticks, since
+  ' the last call of startAccumulating and returns that value.
+  '
+  ' It also adds this ammount to the member accumulatedTime so that
+  ' all time periodes measured can be queried with elapsed_ms()
+  '
 
     dim li as LARGE_INTEGER
     QueryPerformanceCounter li
-    accumulatedTime = accumulatedTime + LARGE_INTEGER_2_double(li) - startedTime
 
-end sub ' }
+    stopAccumulating = LARGE_INTEGER_2_double(li) - startedTime
+
+    accumulatedTime = accumulatedTime + stopAccumulating
+
+end function ' }
 
 public function elapsed_ms() as double ' {
     elapsed_ms = 1000# * accumulatedTime / freq
