@@ -5,4 +5,5 @@
 '
 option explicit
 
-sub out(txt as string)
+sub out(txt as string) ' {
+end sub ' }
