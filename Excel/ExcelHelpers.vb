@@ -9,11 +9,11 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
  '
  '  Return worksheet with the given name.
  '  If it doesn't exist, it is created.
- ' 
+ '
  '  Optionally, deleteIfExists can be set to true to delete an existing worksheet
  '  of the given name prior to creating it
- ' 
-   
+ '
+
     if wb is nothing then
        set wb = activeWorkbook
     end if
@@ -46,9 +46,7 @@ sub deleteWorksheet(name_ as string, wb as workbook) ' {
        dim da as boolean : da = application.displayAlerts
 
        application.displayAlerts = false
-
        ws.delete
-
        application.displayAlerts = da
 
     end if ' }
@@ -78,10 +76,8 @@ sub deleteRange(name_ as string, optional ws as worksheet = nothing) ' {
     end if
 
  on error goto err_
-
     dim rng as range
     set rng = ws.range(name_)
-
  on error goto 0
 
     rng.clearFormats
@@ -95,7 +91,7 @@ sub deleteRange(name_ as string, optional ws as worksheet = nothing) ' {
     if err.number <> 1004 then ' 1004 = Application-defined or object-defined error
         msgBox "deleteRange: " & err.number & chr(10) & err.description
     end if
-  
+
 end sub ' }
 
 sub freezeHeader(ws as excel.workSheet, optional bottomRow as long = 1) ' {
@@ -111,5 +107,13 @@ function colLetterToNum(colLetter as string) as long ' {
  '  http://vba4excel.blogspot.ch/2012/12/column-number-to-letter-and-reverse.html
  '
     colLetterToNum = activeWorkbook.worksheets(1).columns(colLetter).column
+
+end function ' }
+
+function createButton(rng as range, txt as string, nameSub as string) as button ' {
+
+    set createButton      = rng.parent.buttons.add( left := rng.left, top := rng.top, width := rng.width, height := rng.height)
+    createButton.caption  = txt
+    createButton.onAction = nameSub
 
 end function ' }
