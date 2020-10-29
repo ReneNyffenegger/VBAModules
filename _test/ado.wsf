@@ -1,0 +1,47 @@
+<job>
+<script language="VBScript" src="VBS-MS-Office-App-Creator\create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   if wscript.arguments.unnamed.count < 1 then
+      wscript.echo("Expected: OLE DB connection string")
+      wscript.quit(-1)
+   end if
+
+   dim connectionString
+   connectionString = wscript.arguments.unnamed(0)
+   wscript.echo connectionString
+ ' wscript.quit(-1)
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "created.xlsm")
+   if xls is nothing then ' {
+      wscript.echo("Could not create excel worksheet.")
+      wscript.quit(-1)
+   end if ' }
+
+   set app = xls.application
+
+   addReference app, "{B691E011-1797-432E-907A-4D8C69339129}", 6, 1 ' ADODB
+
+
+   insertModule app, currentDir() & "../../../dbg/dbg.vb"                        , "dbg"               , 2
+   insertModule app, currentDir() & "../../../dbg/dbgWriter.vb"                  , "dbgWriter"         , 2
+   insertModule app, currentDir() & "../../../dbg/dbgFileWriter.vb"              , "dbgFileWriter"     , 2
+   insertModule app, currentDir() & "../../../Database\ADO\adoStatement.vb"      , "adoStatement"      , 2
+
+   insertModule app, currentDir() & "ado.vb"                                     , "adoTest"           , 1
+
+   app.run "main", connectionString
+
+   xls.save
+
+   wscript.echo("The end")
+ '
+ ' Bring created Excel Workbook to the front:
+ '
+   createObject("WScript.Shell").appActivate(app.caption)
+
+</script> </job>
