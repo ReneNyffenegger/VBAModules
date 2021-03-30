@@ -118,7 +118,7 @@ function createButton(rng as range, txt as string, nameSub as string) as button 
 
 end function ' }
 
-function unprotect(sh as worksheet, pw as string) as boolean ' {
+function unprotect(byVal sh as worksheet, byVal pw as string) as boolean ' {
 
     on error resume next
 
