@@ -117,3 +117,22 @@ function createButton(rng as range, txt as string, nameSub as string) as button 
     createButton.onAction = nameSub
 
 end function ' }
+
+function unprotect(sh as worksheet, pw as string) as boolean ' {
+
+    on error resume next
+
+    sh.unprotect pw
+
+    if err.number = 1004 then ' {
+    '
+    '  Sheet could not be unprotected
+    '
+       unprotect = false
+       exit function
+
+    end if ' }
+
+    unprotect = true
+
+end function ' }
