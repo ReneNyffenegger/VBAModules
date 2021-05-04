@@ -136,3 +136,38 @@ function unprotect(byVal sh as worksheet, byVal pw as string) as boolean ' {
     unprotect = true
 
 end function ' }
+
+function pageNumberOfCell(c as range) as long ' {
+
+   dim vPageCnt as integer
+   dim hPageCnt as integer
+
+   dim sh as worksheet
+   set sh = c.parent
+
+   if sh.pageSetup.Order = xlDownThenOver then
+      hPageCnt = sh.hPageBreaks.Count + 1
+      vPageCnt = 1
+   else
+
+      vPageCnt = sh.vPageBreaks.Count + 1
+      hPageCnt = 1
+
+   end if
+
+   pageNumberOfCell = 1
+
+   dim vpb as vPageBreak
+   for each vpb In sh.vPageBreaks
+
+       if vpb.Location.Column > c.column then exit for
+       pageNumberOfCell = pageNumberOfCell + hPageCnt
+   next vpb
+
+   dim hpb as hPageBreak
+   for each hpb In sh.hPageBreaks
+       If hpb.Location.row > c.row then exit for
+       pageNumberOfCell = pageNumberOfCell + vPageCnt
+   next hpb
+
+end function ' }
