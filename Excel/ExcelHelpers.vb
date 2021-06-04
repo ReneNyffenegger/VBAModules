@@ -15,7 +15,10 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
  '
 
     if wb is nothing then
-       set wb = activeWorkbook
+     '
+     ' 2021-06-04: it seems safer to use thisWorkbook rather than activeWorkbook
+     '
+       set wb = thisWorkbook
     end if
 
     if deleteIfExists then ' {
@@ -36,36 +39,30 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
 
 end function ' }
 
-sub deleteWorksheet(name_ as string, wb as workbook) ' {
+sub deleteWorksheet(name_ as string, optional wb as workbook = nothing)  ' {
+
+    if wb is nothing then
+       set wb = thisWorkbook
+    end if
 
     dim ws as worksheet
     set ws = collObjectOrNothing(wb.sheets, name_)
 
     if not ws is nothing then ' {
 
+     '
+     ' Set displayAlerts temporarily to false so that the unwanted message
+     '    Microsoft Excel will permanentely delete this sheet. Do you want to continue?
+     ' does not pop up.
+     '
+     ' Compare with another solution on  https://stackoverflow.com/a/31475530/180275
+     '
        dim da as boolean : da = application.displayAlerts
-
        application.displayAlerts = false
        ws.delete
        application.displayAlerts = da
 
     end if ' }
-
-'Q '
-'Q '  https://stackoverflow.com/a/31475530/180275
-'Q '
-'Q    dim i as long : for i = sheets.count to 1 step -1 ' {
-'Q     '
-'Q     '  We're trying to delete a worksheet… therefore
-'Q     '  we loop backward.
-'Q     '
-'Q        if sheets(i).name = name_ then ' {
-'Q            application.displayAlerts = false
-'Q            sheets(i).delete
-'Q            application.displayAlerts = true
-'Q        end if ' }
-'Q
-'Q    next i ' }
 
 end sub ' }
 
