@@ -13,7 +13,7 @@ function collObjectOrNothing(coll as variant, byVal name as string) as object ' 
       exit function
 
    err_:
-   
+
 '     if err.number <> 9 then ' 9 = Subscript out of range ' {
 '        msgBox "collectionItemOrNothing: " & err.number & " - " & err.description
 '     end if ' }
@@ -40,17 +40,17 @@ public function isKeyInColl(coll as variant, byVal key as variant) as boolean ' 
 
 
 '   dim obj as variant
-' 
+'
 '   on error goto err_
-' 
+'
 '   obj = col(key)
-' 
+'
 '   isKeyInColl = true
-' 
+'
 '   exit function
-' 
+'
 ' err_:
-' 
+'
 '   isKeyInColl = false
 
 end function ' }

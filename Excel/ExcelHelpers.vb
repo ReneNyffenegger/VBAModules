@@ -1,5 +1,5 @@
 '
-'      Depends on ../Common/Collection.bas
+'      Depends on ../Common/Collection.vb
 '
 option explicit
 
