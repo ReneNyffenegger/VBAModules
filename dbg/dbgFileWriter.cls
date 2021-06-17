@@ -20,7 +20,7 @@ end sub ' }
 
 public sub init(fileName as string, optional flushImmediately as boolean = false)
   '
-  ' When using dbgFileWriter, it's probably advisable to explicitely
+  ' When using dbgFileWriter, it's probably advisable to explicitly
   ' use the VBA `end` statement when done.
   '
 
