@@ -4,6 +4,7 @@ sub test_excelHelpers() ' {
 
     test_findWorksheet
     test_deleteRange
+    test_hyperlink
 
 end sub ' }
 
@@ -77,3 +78,31 @@ private sub test_deleteRange() ' {
     end with
 
 end sub ' }
+
+private sub test_hyperlink() ' {
+
+    dim ws as worksheet
+    set ws = findWorksheet("hyperlinks")
+
+    insertHyperlinkToVBAMacro ws.cells(2,2), "Hyperlink one"                  , "hyperlinked_1"
+    insertHyperlinkToVBAMacro ws.cells(3,2), "Hyperlink two (hello world, 42)", "hyperlinked_2", "Hello world", 42
+    insertHyperlinkToVBAMacro ws.cells(4,2), "Hyperlink two (foo bar baz, 99)", "hyperlinked_2", "foo bar baz", 99
+
+end sub ' }
+
+public function hyperlinked_1() as range ' {
+    msgBox "hyperlink one"
+
+  '
+  ' The function must return the range that the
+  ' hyperlink jumps to
+  '
+  ' set hyperlinked_1 = sheets("hyperlinks").cells(2,2)
+    set hyperlinked_1 = selection
+end function ' }
+
+public function hyperlinked_2(txt as string, num as long) as range ' {
+    msgBox "hyperlink two, txt = " & txt & ", num = " & num
+'   msgBox "hyperlink two, txt = " & txt
+    set hyperlinked_2 = selection
+end function ' }

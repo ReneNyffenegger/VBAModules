@@ -1,5 +1,7 @@
 '
-'      Depends on ../Common/Collection.vb
+'  Depends on ../Common/Collection.vb
+'
+'  V0.3
 '
 option explicit
 
@@ -97,6 +99,42 @@ sub freezeHeader(ws as excel.workSheet, optional bottomRow as long = 1) ' {
     ws.rows(bottomRow + 1).select
     activeWindow.freezePanes = true
 
+end sub ' }
+
+sub insertHyperlinkToVBAMacro(where as range, byVal text as string, byVal macroname as string, paramArray args()) ' {
+
+    dim formula as string
+    formula = "=hyperlink("
+
+    formula = formula & """#" & macroname & "("
+
+    dim firstArgument as boolean : firstArgument = true
+
+    dim argNo as long
+    for argNo = lBound(args) to uBound(args) ' {
+
+        if firstArgument then
+           firstArgument = false
+        else
+           formula = formula & application.international(xlListSeparator) ' semicolon or comma
+        end if
+
+        if varType(args(argNo)) = vbString then
+           formula = formula & """""" & args(argNo) & """"""
+        else
+           formula = formula & args(argNo)
+        end if
+
+    next argNo ' }
+
+    formula = formula & ")"""
+
+    formula = formula & "," ' Always comma, no need to invoke application.international(xlListSeparator)
+    formula = formula & """" & text & """"
+
+    formula = formula & ")"
+
+    where.formula = formula
 end sub ' }
 
 function colLetterToNum(colLetter as string) as long ' {
