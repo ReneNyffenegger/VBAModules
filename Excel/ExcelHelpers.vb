@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.3
+'  V0.4
 '
 option explicit
 
@@ -59,6 +59,10 @@ sub deleteWorksheet(name_ as string, optional wb as workbook = nothing)  ' {
      '
      ' Compare with another solution on  https://stackoverflow.com/a/31475530/180275
      '
+     ' 2021-07-19: Trying to delete very(?) hidden sheets seems not possible
+     ' unless sheet is made visible:
+       ws.visible = xlSheetVisible
+
        dim da as boolean : da = application.displayAlerts
        application.displayAlerts = false
        ws.delete
