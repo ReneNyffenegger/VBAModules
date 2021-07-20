@@ -19,5 +19,12 @@ end sub ' }
 sub A() ' {
     dbg_.indent "A"
     dbg_.text "in A"
+    B
+    dbg_.dedent
+end sub ' }
+
+sub B() ' {
+    dbg_.indent "B"
+    dbg_.text "in B"
     dbg_.dedent
 end sub ' }

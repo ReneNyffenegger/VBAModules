@@ -14,7 +14,7 @@
 
    set app = xls.application
 
-   insertModule app, currentDir() & "flushImmediately.bas"       , "func"           , 1
+   insertModule app, currentDir() & "flushImmediately.vb"        , "func"           , 1
 
    insertModule app, currentDir() & "../../dbg/dbg.cls"          , "dbg"            , 2
    insertModule app, currentDir() & "../../dbg/dbgWriter.cls"    , "dbgWriter"      , 2
@@ -24,11 +24,6 @@
 
    xls.save
 
-   wscript.echo "The end"
-
- '
- ' Bring created Excel Workbook to the front:
- '
    createObject("WScript.Shell").appActivate(app.caption)
 
 </script> </job>
