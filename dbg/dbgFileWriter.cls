@@ -3,6 +3,7 @@
 '
 '  History
 '    0.02   2020-07-30   In dbgWriter_out(): call flush() if flushImmediately_ is true
+'    0.03   2021-07-20   Fix mess with flushImmediately_
 '
 option explicit
 
@@ -13,33 +14,37 @@ private fileName_         as string
 private flushImmediately_ as boolean
 '
 public sub class_terminate() ' {
-' 2019-12-03 Why did I have this `if not` condition?
-' 2019-12-03       if not flushImmediately_ then closeFile
-    closeFile
+   if not flushImmediately_ then
+      closeFile
+   end if
 end sub ' }
 
 public sub init(fileName as string, optional flushImmediately as boolean = false)
   '
-  ' When using dbgFileWriter, it's probably advisable to explicitly
+  ' When using dbgFileWriter, it's probably advisable to explicitely
   ' use the VBA `end` statement when done.
   '
 
     fileName_         = fileName
     flushImmediately_ = flushImmediately
 
-    if debugFile = 0 then
+    if not flushImmediately_ then
        openFile
-    else
-       err.raise 999, "dbgFileWriter", "debugFile = " & debugFile
     end if
 
 end sub
 
 public sub dbgWriter_out(txt as string) ' {
 
+    if flushImmediately_ then
+       openFile
+    end if
+
     print #debugFile, txt
 
-    if flushImmediately_ then flush
+    if flushImmediately_ then
+       closeFile
+    end if
 
 end sub ' }
 
