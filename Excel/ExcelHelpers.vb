@@ -59,6 +59,7 @@ sub deleteWorksheet(name_ as string, optional wb as workbook = nothing)  ' {
      '
      ' Compare with another solution on  https://stackoverflow.com/a/31475530/180275
      '
+
      ' 2021-07-19: Trying to delete very(?) hidden sheets seems not possible
      ' unless sheet is made visible:
        ws.visible = xlSheetVisible
@@ -97,11 +98,36 @@ sub deleteRange(name_ as string, optional ws as worksheet = nothing) ' {
 
 end sub ' }
 
-sub freezeHeader(ws as excel.workSheet, optional bottomRow as long = 1) ' {
+sub freezeHeader(ws as excel.workSheet, optional bottomRow as long = 1, optional leftColumn as long = 0) ' {
+  '
+  ' TODO: https://stackoverflow.com/a/19362973/180275 seems to indicate that
+  ' this sub should make sure that screenUpdating is set to true when the sheet
+  ' is frozen
+  '
+  ' 2021-07-01: Make sure the currently active sheet and range is activated again when the sub
+  ' is left
+  '
+    dim curSheet     as worksheet : set curSheet     = activeSheet
 
     ws.activate
-    ws.rows(bottomRow + 1).select
-    activeWindow.freezePanes = true
+    dim curSelection as range     : set curSelection = selection
+
+    if leftColumn = 0 then
+       ws.rows(bottomRow + 1).select
+    else
+       ws.cells(bottomRow+1, leftColumn+1).select
+    end if
+
+    with activeWindow
+         if .freezePanes then .freezePanes = false
+'       .splitColumn = 0
+'       .splitRow    = bottomRow
+        .freezePanes = true
+    end with
+
+    curSelection.select
+
+    curSheet.activate
 
 end sub ' }
 
