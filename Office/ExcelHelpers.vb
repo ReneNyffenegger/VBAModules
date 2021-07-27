@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.6
+'  V0.7
 '
 option explicit
 
@@ -258,14 +258,14 @@ sub showRibbon(visible as boolean) ' {
  ' that the differences among Office products are to big
  ' for such a general approach. Thus, this portion of the
  ' excluded with a #if 0 then preprocessor block.
- ' 
+ '
    if application.name = "Microsoft Visio" then
     '
     ' Visio does not seem to have .executeMso "HideRibbon" capability, so it
     ' does not make sense to continue here.
     '
    end if
-   
+
    if application.name = "Microsoft Access" then ' {
        if visible then doCmd.showToolbar "Ribbon", acToolbarYes _
        else            doCmd.showToolbar "Ribbon", acToolbarNo
@@ -288,5 +288,41 @@ sub showRibbon(visible as boolean) ' {
    fs = application.displayFullScreen
    application.commandBars.executeMso "HideRibbon"
    application.displayFullScreen = fs
+
+end sub ' }
+
+sub resetExcelSheet(sh as worksheet) ' {
+
+  '
+  ' TODO: This function should probably make sure that sh is not protected when called
+  '
+
+    sh.columns.useStandardWidth = true
+    sh.rows.useStandardHeight   = true
+    sh.usedRange.clear
+
+    dim shp as shape
+    for each shp in sh.shapes ' {
+        shp.delete
+    next shp ' }
+
+    dim n as name
+    for each n in sh.names ' {
+        n.delete
+    next n ' }
+
+    sh.scrollArea = ""
+
+#if 0 then
+  '
+  ' It seems that a hidden sheet cannot be moved by selecting
+  ' a cell on it (well, it sort of makes sense, though).
+  '
+    dim curSheet as worksheet
+    set curSheet = activeSheet
+    sh.activate
+    sh.cells(1,1).select
+    curSheet.activate
+#end if
 
 end sub ' }
