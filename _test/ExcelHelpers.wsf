@@ -15,7 +15,7 @@
    set app = xls.application
 
    insertModule app, currentDir() & "ExcelHelpers.vb"          , "testExcelHelper", 1
-   insertModule app, currentDir() & "../Excel/ExcelHelpers.vb" , "ExcelHelper"    , 1
+   insertModule app, currentDir() & "../Office/ExcelHelpers.vb", "ExcelHelper"    , 1
    insertModule app, currentDir() & "../Common/Collection.vb"  , "coll"           , 1
 
    app.run "test_ExcelHelpers"
