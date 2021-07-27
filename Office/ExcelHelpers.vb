@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.4
+'  V0.5
 '
 option explicit
 
@@ -236,3 +236,57 @@ function pageNumberOfCell(c as range) as long ' {
    next hpb
 
 end function ' }
+
+function isRibbonShown() as boolean ' {
+    isRibbonShown = application.commandBars("Ribbon").controls(1).height >= 100
+end function ' }
+
+sub showRibbon(visible as boolean) ' {
+ '
+ ' Note: Hiding the Ribbon in Excel or Word causes the workbook
+ '       or Document to occupy the entire screen.
+ '       Thus, before hiding the Ribbon, the size of
+ '       application.window (.left, .top etc) might be stored and
+ '       applied when the ribbon is shown again.
+ '
+ '
+
+#if 0 then
+ '
+ ' This function was originally intended to be put into a
+ ' general OfficeHelper VBa-module. However, it turned out
+ ' that the differences among Office products are to big
+ ' for such a general approach. Thus, this portion of the
+ ' excluded with a #if 0 then preprocessor block.
+ ' 
+   if application.name = "Microsoft Visio" then
+    '
+    ' Visio does not seem to have .executeMso "HideRibbon" capability, so it
+    ' does not make sense to continue here.
+    '
+   end if
+   
+   if application.name = "Microsoft Access" then ' {
+       if visible then doCmd.showToolbar "Ribbon", acToolbarYes _
+       else            doCmd.showToolbar "Ribbon", acToolbarNo
+       exit sub
+   end if ' }
+
+#end if
+
+   if isRibbonShown = visible then
+    '
+    ' Ribbon already shown/hidden, nothing to be done
+    '
+      exit sub
+   end if
+
+  '
+  ' Toggle Ribbon when shown
+  '
+   dim fs as boolean
+   fs = application.displayFullScreen
+   application.commandBars.executeMso "HideRibbon"
+   application.displayFullScreen = fs
+
+end sub ' }
