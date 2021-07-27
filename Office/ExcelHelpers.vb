@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.5
+'  V0.6
 '
 option explicit
 
