@@ -14,7 +14,6 @@
 
    set app = xls.application
 
-   insertModule app, currentDir() & "../../Office/OfficeHelpers.vb", "OfficeHelpers", 1
    insertModule app, currentDir() & "../../Office/ExcelHelpers.vb" , "ExcelHelpers" , 1
    insertModule app, currentDir() & "xls-showRibbon.vb"            , "func"         , 1
 
