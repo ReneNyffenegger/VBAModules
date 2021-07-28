@@ -1,6 +1,6 @@
 ' vi: ft=vb
 '
-' 
+' V0.2 
 
 option explicit
 
