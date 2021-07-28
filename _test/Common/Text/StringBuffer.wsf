@@ -1,0 +1,23 @@
+<job>
+<script language="VBScript" src="..\..\VBS-MS-Office-App-Creator\create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "ExcelHelper.xlsm")
+   if xls is nothing then ' {
+      wscript.echo "Could not create excel worksheet."
+      wscript.quit -1
+   end if ' }
+
+   set app = xls.application
+
+   insertModule app, currentDir() & "StringBuffer.vb"                      , "func"        , 1
+   insertModule app, currentDir() & "../../../Common/Text/StringBuffer.cls", "StringBuffer", 2
+
+   app.run "testSTringBuffer"
+
+   xls.save
+</script></job>

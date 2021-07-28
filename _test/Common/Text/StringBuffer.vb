@@ -3,12 +3,20 @@ option explicit
 sub testStringBuffer () ' {
 
     dim sb as new StringBuffer : sb.init 2
+
     sb.append "foo"
     sb.append "bar"
     sb.append ",baz"
 
     if sb.value <> "foobar,baz" then ' {
        msgBox sb.value
+    end if ' }
+
+  '
+  ' StringBuffer V0.2: test default attribute:
+  '
+    if sb <> "foobar,baz" then ' {
+       msgBox "Accessing default attribute did not succeed"
     end if ' }
 
     timeIt
