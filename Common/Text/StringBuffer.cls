@@ -34,7 +34,7 @@ public sub append(text as string) ' {
 end sub ' }
 
 public function value as string ' {
-    attribute name.vb_UserMemId = 0
+    attribute value.vb_UserMemId = 0
 
     value = mid$(buf, 1, cur_len)
 end function ' }
