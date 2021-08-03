@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.7
+'  V0.8
 '
 option explicit
 
@@ -255,7 +255,7 @@ sub showRibbon(visible as boolean) ' {
  '
  ' This function was originally intended to be put into a
  ' general OfficeHelper VBa-module. However, it turned out
- ' that the differences among Office products are to big
+ ' that the differences among Office products are too big
  ' for such a general approach. Thus, this portion of the
  ' excluded with a #if 0 then preprocessor block.
  '
@@ -313,16 +313,21 @@ sub resetExcelSheet(sh as worksheet) ' {
 
     sh.scrollArea = ""
 
-#if 0 then
   '
   ' It seems that a hidden sheet cannot be moved by selecting
   ' a cell on it (well, it sort of makes sense, though).
   '
     dim curSheet as worksheet
     set curSheet = activeSheet
+    curSheet.visible = xlSheetVisible
     sh.activate
     sh.cells(1,1).select
+
+    activeWindow.splitRow     = 0
+    activeWindow.splitColumn  = 0
+    activeWindow.split        = false
+    activeWindow.freezePanes  = false
+
     curSheet.activate
-#end if
 
 end sub ' }
