@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.8
+'  V0.9
 '
 option explicit
 
@@ -299,7 +299,17 @@ sub resetExcelSheet(sh as worksheet) ' {
 
     sh.columns.useStandardWidth = true
     sh.rows.useStandardHeight   = true
+#if 1 then
+ '
+ '  Drawing a border apparently does not extend
+ '  the size of usedRange. Thus, all cells
+ '  are cleared and the previous sh.usedRange.clear
+ '  left as a reminder
+ '
+    sh.cells.clear
+#else
     sh.usedRange.clear
+#end if
 
     dim shp as shape
     for each shp in sh.shapes ' {
