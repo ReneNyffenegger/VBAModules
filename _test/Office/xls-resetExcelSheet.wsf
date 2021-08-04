@@ -15,6 +15,7 @@
    set app = xls.application
 
    insertModule app, currentDir() & "../../Office/ExcelHelpers.vb" , "ExcelHelpers" , 1
+   insertModule app, currentDir() & "../../Common/Collection.vb"   , "coll"         , 1
    insertModule app, currentDir() & "xls-resetExcelSheet.vb"       , "func"         , 1
 
    app.run "main"
