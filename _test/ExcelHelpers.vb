@@ -5,6 +5,7 @@ sub test_excelHelpers() ' {
     test_findWorksheet
     test_deleteRange
     test_hyperlink
+    test_num_letter
 
 end sub ' }
 
@@ -87,6 +88,25 @@ private sub test_hyperlink() ' {
     insertHyperlinkToVBAMacro ws.cells(2,2), "Hyperlink one"                  , "hyperlinked_1"
     insertHyperlinkToVBAMacro ws.cells(3,2), "Hyperlink two (hello world, 42)", "hyperlinked_2", "Hello world", 42
     insertHyperlinkToVBAMacro ws.cells(4,2), "Hyperlink two (foo bar baz, 99)", "hyperlinked_2", "foo bar baz", 99
+
+end sub ' }
+
+private sub test_num_letter_() ' {
+  if colLetterToNum("Z" ) <>  26  then msgBox "Expected 26"
+  if colLetterToNum("AA") <>  27  then msgBox "Expected 27"
+  if colNumToLetter( 26 ) <> "Z"  then msgBox "Expected 'Z'"
+  if colNumToLetter( 27 ) <> "AA" then msgBox "Expected 'AA'"
+end sub ' }
+
+private sub test_num_letter() ' {
+
+   dim curRefStyle as long
+   curRefStyle = application.referenceStyle
+
+   application.referenceStyle = xlA1   : test_num_letter_
+   application.referenceStyle = xlR1C1 : test_num_letter_
+
+   application.referenceStyle = curRefStyle
 
 end sub ' }
 

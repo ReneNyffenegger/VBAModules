@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.8
+'  V0.10
 '
 option explicit
 
@@ -175,6 +175,13 @@ function colLetterToNum(colLetter as string) as long ' {
 
 end function ' }
 
+function colNumToLetter(colNum as long) as string
+ '
+ '  http://vba4excel.blogspot.ch/2012/12/column-number-to-letter-and-reverse.html
+ '
+     colNumToLetter = split(cells(1, colNum).address, "$")(1)
+end function ' }
+
 function createButton(rng as range, txt as string, nameSub as string) as button ' {
 
     set createButton      = rng.parent.buttons.add( left := rng.left, top := rng.top, width := rng.width, height := rng.height)
@@ -299,7 +306,17 @@ sub resetExcelSheet(sh as worksheet) ' {
 
     sh.columns.useStandardWidth = true
     sh.rows.useStandardHeight   = true
+#if 1 then
+ '
+ '  Drawing a border apparently does not extend
+ '  the size of usedRange. Thus, all cells
+ '  are cleared and the previous sh.usedRange.clear
+ '  left as a reminder
+ '
+    sh.cells.clear
+#else
     sh.usedRange.clear
+#end if
 
     dim shp as shape
     for each shp in sh.shapes ' {
