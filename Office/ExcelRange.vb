@@ -1,7 +1,7 @@
 '
 '  Support functions for Excel ranges
 '
-'  V0.2
+'  V0.3
 '
 option explicit
 
@@ -133,3 +133,18 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
    end if
 
 end function ' }
+
+public sub excelRangeToolTip(rng as range, title as string, msg as string) ' {
+
+   with rng.validation ' {
+
+       .add  type   := xlValidateCustom, formula1 := "=true"
+       .inputTitle   = title
+       .inputMessage = msg
+
+       .showInput    = true
+       .showError    = false
+
+   end with ' }
+
+end sub ' }
