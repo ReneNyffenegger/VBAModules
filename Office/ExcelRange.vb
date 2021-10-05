@@ -1,7 +1,7 @@
 '
 '  Support functions for Excel ranges
 '
-'  V0.3
+'  V0.4
 '
 option explicit
 
@@ -113,7 +113,7 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
 
                  else
 
-                  ' Split the range into a left and right half:
+                 ' Split the range into a left and right half:
 
                    set rngPart_1 = rngArea.resize(, rngArea.columns.count \ 2                   )
                    set rngPart_2 = rngArea.resize(, rngArea.columns.count - rngPart_1.columns.count).offset(, rngPart_1.columns.count)
@@ -131,6 +131,41 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
        set excelRangeSubtract = rngACcumulator
 
    end if
+
+end function ' }
+
+public function excelRangeToJson(rng as range) as string ' {
+
+    dim ret as new stringBuffer
+    ret.init 10000
+
+    ret.append "["
+
+    dim r as long
+    for r = 1 to rng.rows.count
+
+        if r > 1 then
+           ret.append ","
+        end if
+        ret.append("[")
+
+        dim c as long
+        for c = 1 to rng.columns.count
+
+            if c > 1 then
+               ret.append ","
+            end if
+
+            ret.append json_val(rng.cells(r,c).value)
+
+        next c
+        ret.append "]"
+
+    next r
+
+    ret.append "]"
+
+    excelRangeToJson = ret
 
 end function ' }
 
