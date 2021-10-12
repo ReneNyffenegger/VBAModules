@@ -1,0 +1,28 @@
+<job>
+<script language="VBScript" src="../../../VBS-MS-Office-App-Creator/create-MS-Office-app.vbs" />
+<script language="VBScript">
+
+   option explicit
+
+   dim app
+   dim xls
+   set xls = createOfficeApp("excel", currentDir() & "test.xlsm")
+   if xls is nothing then ' {
+      wscript.echo "Could not create excel worksheet."
+      wscript.quit -1
+   end if ' }
+
+   set app = xls.application
+
+   insertModule app, currentDir() & "func.vb"                           , "testRange"   , 1
+   insertModule app, currentDir() & "../../../../Office/ExcelHelpers.vb", "excelHelpers", 1
+   insertModule app, currentDir() & "../../../../Office/ExcelRange.vb"  , "excelRange"  , 1
+
+   app.run "test_excelRangeResize"
+
+   xls.save
+
+   wscript.echo "The end"
+   createObject("WScript.Shell").appActivate(app.caption)
+
+</script></job>
