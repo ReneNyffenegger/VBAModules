@@ -1,6 +1,9 @@
 option explicit
 '
-'  V0.2
+'  V0.3
+'
+'  Add reference to Regular Expression Library:
+'      call application.VBE.activeVBProject.references.addFromGuid("{3F4DACA7-160D-11D2-A8E9-00104B365C9F}", 5,  5)
 '
 
 public function regexpSplit(text as string, pattern as string) as string() ' {
@@ -49,7 +52,7 @@ function parsePossibleDate(possibleDate as variant) as variant ' {
        exit function
     end if ' }
 
-    re.pattern = "^(\d\d?)\.(\d\d?).(\d\d\d\d)( \d\d:\d\d)?$"
+    re.pattern = "^(\d\d?)\.(\d\d?).(\d\d\d\d)( \d\d:\d\d)?$" ' {
 
     set mc= re.execute(possibleDate)
 
@@ -58,7 +61,9 @@ function parsePossibleDate(possibleDate as variant) as variant ' {
        exit function
     end if ' }
 
-    re.pattern = "^(\d\d\d\d)(\d\d)(\d\d)$"
+    ' }
+
+    re.pattern = "^(\d\d\d\d)(\d\d)(\d\d)$" ' {
     set mc= re.execute(possibleDate)
 
     if mc.count > 0 then ' {
@@ -66,13 +71,45 @@ function parsePossibleDate(possibleDate as variant) as variant ' {
        exit function
     end if ' }
 
-    re.pattern = "^(\d+)$" ' The »date« might just be the numbers since 1899-12-30.
+    ' }
+
+    re.pattern = "^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec) (\d+), (\d{4})$" ' {
+    set mc= re.execute(possibleDate)
+
+    if mc.count > 0 then ' {
+
+       dim m as long
+
+       select case mc(0).subMatches(0) ' {
+          case "jan" : m = 1
+          case "feb" : m = 2
+          case "mar" : m = 3
+          case "apr" : m = 4
+          case "may" : m = 5
+          case "jun" : m = 6
+          case "jul" : m = 7
+          case "aug" : m = 8
+          case "sep" : m = 9
+          case "oct" : m =10
+          case "nov" : m =11
+          case "dec" : m =12
+       end select ' }
+
+       parsePossibleDate = dateSerial(mc(0).subMatches(2), m , mc(0).subMatches(1))
+       exit function
+    end if ' }
+
+    ' }
+
+    re.pattern = "^(\d+)$" ' The »date« might just be the numbers since 1899-12-30. ' {
     set mc = re.execute(possibleDate)
 
     if mc.count > 0 then ' {
        parsePossibleDate = cDate(mc(0).subMatches(0))
        exit function
     end if ' }
+
+    ' }
 
     parsePossibleDate = cvDate(null)
 
@@ -81,6 +118,10 @@ end function ' }
 sub test_parsePossibleDate() ' {
 
     if parsePossibleDate("28.08.2016 00:00") <> #2016-08-28# then ' {
+       debug.print "Failed"
+    end if ' }
+
+    if parsePossibleDate("dec 17, 2019") <> #2019-12-17# then ' {
        debug.print "Failed"
     end if ' }
 
