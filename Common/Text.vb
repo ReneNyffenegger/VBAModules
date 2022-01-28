@@ -34,6 +34,8 @@ function parsePossibleDate(possibleDate as variant) as variant ' {
     dim re as new regExp
     dim mc as     matchCollection
 
+    re.ignorecase = true
+
     if isEmpty(possibleDate) then ' {
        parsePossibleDate = cvDate(null)
        exit function
@@ -80,7 +82,7 @@ function parsePossibleDate(possibleDate as variant) as variant ' {
 
        dim m as long
 
-       select case mc(0).subMatches(0) ' {
+       select case lCase(mc(0).subMatches(0)) ' {
           case "jan" : m = 1
           case "feb" : m = 2
           case "mar" : m = 3
