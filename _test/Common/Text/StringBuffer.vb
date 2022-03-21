@@ -2,21 +2,31 @@ option explicit
 
 sub testStringBuffer () ' {
 
-    dim sb as new StringBuffer : sb.init 2
+    dim sb as new StringBuffer : sb.init 5
 
     sb.append "foo"
-    sb.append "bar"
-    sb.append ",baz"
+    sb.append ", bar"
 
-    if sb.value <> "foobar,baz" then ' {
+    if sb <> "foo, bar" then
+       msgBox "Expected foo, bar, but got: " & sb
+    end if
+
+    sb.append " and baz. And quite a lot more!"
+
+    if sb.value <> "foo, bar and baz. And quite a lot more!" then ' {
        msgBox sb.value
     end if ' }
 
   '
   ' StringBuffer V0.2: test default attribute:
   '
-    if sb <> "foobar,baz" then ' {
+    if sb <> "foo, bar and baz. And quite a lot more!" then ' {
        msgBox "Accessing default attribute did not succeed"
+    end if ' }
+
+    sb.append("<")
+    if sb <> "foo, bar and baz. And quite a lot more!<" then ' {
+       msgBox "trailing < not found"
     end if ' }
 
     timeIt
