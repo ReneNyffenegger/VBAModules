@@ -103,7 +103,7 @@ function clipboardToText() as string ' {
  ' Hopefully, 1 MB is enough...
  ' ... otherwise, the lstrcpy below will fail miserably!
    str = space$(1# * 1024 * 1024)
-   
+
    lstrcpy str, lockedMemory
    GlobalUnlock(lockedMemory)
 
