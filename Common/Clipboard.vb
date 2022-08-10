@@ -1,5 +1,5 @@
 '
-'  V.1
+'  V.2
 '
 option explicit
 
@@ -30,6 +30,8 @@ declare function SetClipboardData    lib "User32"                               
      byVal wFormat as long, _
      byVal hMem    as long                         ) as long
 
+declare function GetClipboardData    lib "User32"                                     ( _
+     byVal wFormat as long                         ) as long
 
 private const GHND                          = &h42
 private const CF_TEXT                       = 1
@@ -62,7 +64,7 @@ sub textToClipboard(txt as string) ' {
       exit sub
    end if
 
-   call EmptyClipboard()
+   EmptyClipboard
 
    call SetClipboardData(CF_TEXT, memory)
 
@@ -71,3 +73,51 @@ sub textToClipboard(txt as string) ' {
    end if
 
 end sub ' }
+
+function clipboardToText() as string ' {
+
+   dim h            as long
+   dim lockedMemory as long
+
+
+   if OpenClipboard(0) = 0 then
+      msgBox "Could not open Clipboard"
+      exit function
+   end if
+
+   h = GetClipboardData(CF_TEXT)
+
+   if h = 0 then
+      msgBox "GetClipboardData could not allocate memory"
+      exit function
+   end if
+
+   lockedMemory = GlobalLock(h)
+   if lockedMemory = 0 then
+      msgBox "GlobalLock failed"
+      exit function
+   end if
+
+   dim str as string
+
+ ' Hopefully, 1 MB is enough...
+ ' ... otherwise, the lstrcpy below will fail miserably!
+   str = space$(1# * 1024 * 1024)
+   
+   lstrcpy str, lockedMemory
+   GlobalUnlock(lockedMemory)
+
+ '
+ ' Remove 'text' after null-byte:
+ '
+   dim pos as long
+   pos = inStr(1, str , Chr$(0), 0)
+   str = mid(str, 1,  pos-1)
+
+   if CloseClipboard() = 0 then
+      msgBox "CloseClipboard failed"
+   end if
+
+   clipboardToText = str
+
+end function ' }
