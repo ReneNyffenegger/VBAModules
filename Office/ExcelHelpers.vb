@@ -1,9 +1,21 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.10
+'  V0.11
 '
 option explicit
+
+type xlsPerfOptions ' {
+ '
+ '   This type is used in combination with
+ '   xlsStartFillSheet and xlsEndFillSheet
+ '
+ '   https://vbacompiler.com/optimize-vba-code/
+ '
+     calculation_    as xlCalculation
+     screenUpdating_ as boolean
+     enableEvents_   as boolean
+end type ' }
 
 function findWorksheet(name as string, optional deleteIfExists as boolean = false, optional wb as workbook = nothing) as excel.worksheet ' {
  '
@@ -15,7 +27,6 @@ function findWorksheet(name as string, optional deleteIfExists as boolean = fals
  '  Optionally, deleteIfExists can be set to true to delete an existing worksheet
  '  of the given name prior to creating it
  '
-
     if wb is nothing then
      '
      ' 2021-06-04: it seems safer to use thisWorkbook rather than activeWorkbook
@@ -172,14 +183,13 @@ function colLetterToNum(colLetter as string) as long ' {
  '  http://vba4excel.blogspot.ch/2012/12/column-number-to-letter-and-reverse.html
  '
     colLetterToNum = activeWorkbook.worksheets(1).columns(colLetter).column
-
 end function ' }
 
 function colNumToLetter(colNum as long) as string
  '
  '  http://vba4excel.blogspot.ch/2012/12/column-number-to-letter-and-reverse.html
  '
-     colNumToLetter = split(cells(1, colNum).address, "$")(1)
+     colNumToLetter = vba.split(cells(1, colNum).address, "$")(1)
 end function ' }
 
 function createButton(rng as range, txt as string, nameSub as string) as button ' {
@@ -347,4 +357,20 @@ sub resetExcelSheet(sh as worksheet) ' {
 
     curSheet.activate
 
+end sub ' }
+
+public function xlsStartFillSheet as xlsPerfOptions
+    xlsStartFillSheet.calculation_    = application.calculation
+    xlsStartFillSheet.screenUpdating_ = application.screenUpdating
+    xlsStartFillSheet.enableEvents_   = application.enableEvents
+
+    application.calculation           = xlCalculationManual
+    application.screenUpdating        = false
+    application.enableEvents          = false
+end function ' }
+
+public sub xlsEndFillSheet(opt as xlsPerfOptions) ' {
+    application.calculation    = opt.calculation_
+    application.screenUpdating = opt.screenUpdating_
+    application.enableEvents   = opt.enableEvents_
 end sub ' }
