@@ -74,3 +74,9 @@ function enabled() as boolean ' {
 ' end if
 
 end function ' }
+
+public sub checkIndentation(expectedIndent as long, txt as string) ' {
+    if indent_ <> expectedIndent then
+       text_("indent check failed, " & txt)
+    end if
+end sub ' }
