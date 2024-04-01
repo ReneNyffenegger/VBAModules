@@ -1,3 +1,4 @@
 *.bas linguist-language=vba
+*.vb  linguist-language=vba
 *.cls linguist-language=vba
 *.frm linguist-language=vba
