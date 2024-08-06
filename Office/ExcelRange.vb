@@ -1,7 +1,7 @@
 '
 '  Support functions for Excel ranges
 '
-'  V0.4
+'  V0.5
 '
 option explicit
 
@@ -53,8 +53,7 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
  '
  ' After an idea that I found in https://stackoverflow.com/a/21589364/180275
  '
-
-   if rng is nothing then '
+   if rng is nothing then
       exit function
    end if
 
@@ -63,8 +62,7 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
       exit function
    end if
 
-   dim rngCommon  As Range
-
+   dim rngCommon as range
    set rngCommon = intersect(rng, rngSub)
 
    if     rngCommon is nothing then
@@ -100,7 +98,6 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
               ' Nothing to do?
 
              else
-
                 dim rngPart_1  as range
                 dim rngPart_2  as range
 
@@ -115,7 +112,7 @@ public function excelRangeSubtract(rng as range, rngSub as range) as range ' {
 
                  ' Split the range into a left and right half:
 
-                   set rngPart_1 = rngArea.resize(, rngArea.columns.count \ 2                   )
+                   set rngPart_1 = rngArea.resize(, rngArea.columns.count \ 2)
                    set rngPart_2 = rngArea.resize(, rngArea.columns.count - rngPart_1.columns.count).offset(, rngPart_1.columns.count)
 
                  end if
@@ -156,7 +153,7 @@ public function excelRangeToJson(rng as range) as string ' {
                ret.append ","
             end if
 
-            ret.append json_val(rng.cells(r,c).value)
+            ret.append replace(json_val(rng.cells(r,c).value), "\", "\\")
 
         next c
         ret.append "]"
