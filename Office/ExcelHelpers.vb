@@ -1,7 +1,7 @@
 '
 '  Depends on ../Common/Collection.vb
 '
-'  V0.11
+'  V0.11a
 '
 option explicit
 
@@ -185,7 +185,7 @@ function colLetterToNum(colLetter as string) as long ' {
     colLetterToNum = activeWorkbook.worksheets(1).columns(colLetter).column
 end function ' }
 
-function colNumToLetter(colNum as long) as string
+function colNumToLetter(colNum as long) as string ' {
  '
  '  http://vba4excel.blogspot.ch/2012/12/column-number-to-letter-and-reverse.html
  '
@@ -359,7 +359,7 @@ sub resetExcelSheet(sh as worksheet) ' {
 
 end sub ' }
 
-public function xlsStartFillSheet as xlsPerfOptions
+public function xlsStartFillSheet as xlsPerfOptions ' {
     xlsStartFillSheet.calculation_    = application.calculation
     xlsStartFillSheet.screenUpdating_ = application.screenUpdating
     xlsStartFillSheet.enableEvents_   = application.enableEvents
